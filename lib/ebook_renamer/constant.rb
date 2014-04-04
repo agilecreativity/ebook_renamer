@@ -1,5 +1,5 @@
 module EbookRenamer
-  # The Calibre metadata extraction tool (epub, mobi)
+  # The Calibre metadata extraction tool (epub, mobi, pdf)
   CALIBRE_CLI_BINARY = '/usr/bin/ebook-meta'
 
   # The Calibre metadata extraction tool
@@ -7,12 +7,6 @@ module EbookRenamer
 
   # Support URL for Calibre's CLI tool
   CALIBRE_CLI_URL = 'http://manual.calibre-ebook.com/cli/cli-index.html'
-
-  # Exiftool binary executable (for pdf, also `mdls` on OSX)
-  EXIFTOOL_BINARY = '/usr/local/bin/exiftool'
-
-  # On OSX, `brew install exiftool`
-  EXIFTOOL_URL = 'http://www.sno.phy.queensu.ca/~phil/exiftool/'
 
   # Attribute keys
   META_KEYS = %w[title authors(s) publisher languages published rights identifiers]
