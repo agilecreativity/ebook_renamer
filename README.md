@@ -11,8 +11,8 @@ the metadata within the ebook itself (if available).
 * Then install the gem
 
 ```sh
-$bundle
-$gem install ebook_renamer
+bundle
+gem install ebook_renamer
 ```
 
 ### Usage
