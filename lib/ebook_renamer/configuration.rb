@@ -9,7 +9,7 @@ module EbookRenamer
 
     def to_s
       <<-END.gsub(/^\s+\|/, '')
-       | ebook-meta : #{ebook_meta_binary}
+       | ebook-meta : #{meta_binary}
       END
     end
   end

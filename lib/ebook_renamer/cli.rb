@@ -30,7 +30,7 @@ module EbookRenamer
         puts "Input :#{file}"
         extension = File.extname(file)
         begin
-          hash = Helpers.meta_to_hash(Helpers.meta(file, config.ebook_meta_binary))
+          hash = Helpers.meta_to_hash(Helpers.meta(file, config.meta_binary))
           formatted_name = Helpers.formatted_name(hash, sep_char: " by ")
           formatted_name = "#{formatted_name}#{extension}"
           new_name = "#{File.dirname(file)}/#{Helpers.sanitize_filename(formatted_name, '.')}"
