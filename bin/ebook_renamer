@@ -14,9 +14,12 @@ require 'ostruct'
 begin
   options = parse_options()
   EbookRenamer.logger.info "Your options: #{options}"
+  meta_binary = options.delete(:meta_binary)
+  #
   # Note: if we need to adjust the path to the executable
   EbookRenamer.configure do |config|
-    config.meta_binary = '/usr/bin/ebook-meta'
+    #config.meta_binary = '/usr/bin/ebook-meta'
+    config.meta_binary = meta_binary unless meta_binary.nil?
   end
 
   cli = EbookRenamer::CLI.new(EbookRenamer.configuration)

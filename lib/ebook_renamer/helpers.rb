@@ -4,6 +4,9 @@ require 'shellwords'
 
 module EbookRenamer
   class Helpers
+
+    EbookMetaNotInstall = Class.new(StandardError)
+
     class << self
 
       # Extract meta data from the input file using the ebook-meta tool
@@ -12,8 +15,12 @@ module EbookRenamer
       # @param [String] binary the executable for use to extract the metadata
       # @return [String] result of the output from running the command
       def meta(filename, binary = 'ebook-meta')
+        binary_path = which(binary)
+
+        raise EbookMetaNotInstall, "Need to install ebook-meta to use this gem" if binary_path.nil?
+
         command = [
-          binary,
+          binary_path,
           Shellwords.escape(filename)
         ]
 

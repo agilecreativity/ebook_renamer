@@ -1,14 +1,36 @@
-## EbookRenamer
+## Ebook_Renamer
 
 Simple utility to perform bulk rename of the ebooks(epub,mobi,pdf) based on
 the metadata within the ebook itself (if available).
 
-### Installation
+### Why do I wrote this gem
+
+Almost alwasy when I purchase a new ebooks (or download them from the internet) they always came with the
+bad name. I really like the meaningful name to the file that I have. This make it easy to search for them
+and give you the context to the content of the file.
+
+I wrote this gem just to make it possible to rename in bulk and recursively.
+
+This gem will rename any ebook files (currently only pdf, epub, mobi) using the available
+meta-data that embedded within the ebook.
+
+So if you don't like to spend time renaming them manually then this gem is for you.
+
+### What you will need
 
 * You will need to install the [Calibre](http://www.calibre-ebook.com/) and
-  [Calibre CLI](http://manual.calibre-ebook.com/cli/cli-index.html)
+  [Calibre CLI](http://manual.calibre-ebook.com/cli/cli-index.html) on your OS.
 
-* Then install the gem
+* This gem should work on OSX/Linux like system. It may work with Windows system but I can't confirm
+as I don't use windows for quite sometime now.
+
+### Problems/Issues
+
+- Error may be raised if the combined meta-data is too long.
+e.g. if your files is stored in NTFS drive then you may get the error indicate the file is too long
+or something similar. I will try to handle this error in the next few release.
+
+### Installation and Usage:
 
 ```sh
 bundle
@@ -37,7 +59,7 @@ ebook_rename  --recursive
 ebook_renamer --recusive --commit
 ```
 
-### Output of `ebook_renamer --help`
+### Sample Usage (from `ebook_renamer --help`)
 
 ```
  Usage: ebook_renamer [options]
@@ -57,14 +79,34 @@ ebook_renamer --recusive --commit
   5) $ebook_renamer --base-dir ~/Dropbox/ebooks
                     --recursive
                     --commit
+
+  6) $ebook_renamer --base-dir ~/Dropbox/ebooks
+                    --meta-binary /usr/bin/ebook-meta
+                    --recursive
+                    --commit
+
  Options:
 
     -b, --base-dir directory         Starting directory [default - current directory]
+    -m, --meta-binary path           Path to the ebook-meta executable [default - '/usr/bin/ebook-meta']
     -r, --recursive                  Process the files recursively [default - false]
     -c, --commit                     Perform the actual rename [default - false]
     -v, --version                    Display version number
     -h, --help                       Display this screen
 ```
+
+### Changelog
+
+#### 0.0.3
+
+- make it possible to change the path to the binary
+
+#### 0.0.2
+
+- fix the silly refactoring bug
+
+#### 0.0.1
+- Initial release
 
 ### Contributing
 
