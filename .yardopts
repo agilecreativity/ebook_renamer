@@ -1,0 +1,2 @@
+# see: http://rubydoc.info/gems/yard/file/README.md
+--no-private --protected lib/**/*.rb - README.md LICENSE

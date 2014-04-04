@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+begin
+  require 'pry'
+  require 'ebook_renamer'
+rescue LoadError
+  $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+  require 'ebook_renamer'
+end
+
+include EbookRenamer
+include EbookRenamer::Options
+require 'ostruct'
+
+begin
+  options = parse_options()
+  EbookRenamer.logger.info "Your options: #{options}"
+  # Note: if we need to adjust the path to the executable
+  EbookRenamer.configure do |config|
+    config.meta_binary = '/usr/bin/ebook-meta'
+  end
+
+  cli = EbookRenamer::CLI.new(EbookRenamer.configuration)
+  cli.rename(options[:base_dir], options)
+  exit 0
+rescue ArgumentError => e
+  puts e
+  exit 1
+end
+# vim: ft=ruby
