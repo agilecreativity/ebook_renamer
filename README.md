@@ -142,14 +142,17 @@ the output will be something like `Start.with.Why.How.Great.Leader.Inspire.Every
                     --commit
 
   6) $ebook_renamer --base-dir ~/Dropbox/ebooks
-                    --meta-binary ebook-meta
                     --recursive
                     --commit
 
+  7) $ebook_renamer --base-dir ~/Dropbox/ebooks
+                    --recursive
+                    --sep-string '_'
+                    --commit
  Options:
 
     -b, --base-dir directory         Starting directory [default - current directory]
-    -m, --meta-binary path           The ebook-meta executable [default - 'ebook-meta']
+    -s, --sep-string string          Separator string [default - '.']
     -r, --recursive                  Process the files recursively [default - false]
     -c, --commit                     Perform the actual rename [default - false]
     -v, --version                    Display version number
@@ -157,6 +160,10 @@ the output will be something like `Start.with.Why.How.Great.Leader.Inspire.Every
 ```
 
 ### Changelog
+
+#### 0.0.7
+
+- More improvement and code cleanup
 
 #### 0.0.6
 

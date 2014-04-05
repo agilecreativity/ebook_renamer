@@ -1,6 +1,5 @@
 require 'ebook_renamer/version'
 require 'ebook_renamer/logger'
-require 'ebook_renamer/constant'
 require 'ebook_renamer/helpers'
 require 'ebook_renamer/configuration'
 require 'ebook_renamer/options'

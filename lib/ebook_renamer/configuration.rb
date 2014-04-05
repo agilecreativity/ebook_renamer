@@ -1,16 +1,14 @@
 module EbookRenamer
   class Configuration
-
+    # the separator char for each word in the file name
     attr_accessor :meta_binary
 
-    def initialize
-      @meta_binary = '/usr/bin/ebook-meta'
-    end
+    # the separator char for each word in the file name
+    attr_accessor :sep_string
 
-    def to_s
-      <<-END.gsub(/^\s+\|/, '')
-       | ebook-meta : #{meta_binary}
-      END
+    def initialize
+      @meta_binary = 'ebook-meta'
+      @sep_string  = '.'
     end
   end
 

@@ -16,10 +16,10 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
-  # Generated dependencies
+
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
-  # additional dependencies
+
   spec.add_development_dependency "minitest-spec-context", "~> 0.0.3"
   spec.add_development_dependency "guard-minitest", "~> 2.2"
   spec.add_development_dependency "minitest", "~> 4.2"

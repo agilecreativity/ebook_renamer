@@ -3,7 +3,7 @@ describe EbookRenamer do
 
   before :each do
     EbookRenamer.configure do |config|
-      config.meta_binary = '/usr/bin/ebook-meta'
+      config.meta_binary = 'ebook-meta'
     end
   end
 
@@ -12,11 +12,11 @@ describe EbookRenamer do
   end
 
   it "uses the updated configuration" do
-    EbookRenamer.configuration.meta_binary.must_equal '/usr/bin/ebook-meta'
-    config = EbookRenamer.configure do |config|
-      config.meta_binary = "ebook-meta"
-    end
     EbookRenamer.configuration.meta_binary.must_equal 'ebook-meta'
+    config = EbookRenamer.configure do |config|
+      config.meta_binary = "new-ebook-meta"
+    end
+    EbookRenamer.configuration.meta_binary.must_equal 'new-ebook-meta'
   end
 
 end
