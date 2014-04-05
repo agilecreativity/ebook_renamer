@@ -81,14 +81,14 @@ ebook_renamer --recusive --commit
                     --commit
 
   6) $ebook_renamer --base-dir ~/Dropbox/ebooks
-                    --meta-binary /usr/bin/ebook-meta
+                    --meta-binary ebook-meta
                     --recursive
                     --commit
 
  Options:
 
     -b, --base-dir directory         Starting directory [default - current directory]
-    -m, --meta-binary path           Path to the ebook-meta executable [default - '/usr/bin/ebook-meta']
+    -m, --meta-binary path           The ebook-meta executable [default - 'ebook-meta']
     -r, --recursive                  Process the files recursively [default - false]
     -c, --commit                     Perform the actual rename [default - false]
     -v, --version                    Display version number
@@ -96,6 +96,11 @@ ebook_renamer --recusive --commit
 ```
 
 ### Changelog
+
+#### 0.0.4
+
+- fix the stupid bug with the `which` method which raise invalid error
+- update README.md to reflect the change
 
 #### 0.0.3
 

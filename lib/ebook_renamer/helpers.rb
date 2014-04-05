@@ -15,12 +15,9 @@ module EbookRenamer
       # @param [String] binary the executable for use to extract the metadata
       # @return [String] result of the output from running the command
       def meta(filename, binary = 'ebook-meta')
-        binary_path = which(binary)
-
-        raise EbookMetaNotInstall, "Need to install ebook-meta to use this gem" if binary_path.nil?
-
+        raise EbookMetaNotInstall, "Need to install ebook-meta to use this gem" if which(binary).nil?
         command = [
-          binary_path,
+          binary,
           Shellwords.escape(filename)
         ]
 

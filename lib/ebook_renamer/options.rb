@@ -27,7 +27,7 @@ module EbookRenamer::Options
         |                    --commit
         |
         |  6) $ebook_renamer --base-dir ~/Dropbox/ebooks
-        |                    --meta-binary /usr/bin/ebook-meta
+        |                    --meta-binary ebook-meta
         |                    --recursive
         |                    --commit
         |
@@ -40,8 +40,8 @@ module EbookRenamer::Options
         options[:base_dir] = base_dir
       end
 
-      options[:meta_binary] ||= '/usr/bin/ebook-meta'
-      opts.on('-m', '--meta-binary path', "Path to the ebook-meta executable [default - '/usr/bin/ebook-meta']") do |binary|
+      options[:meta_binary] ||= 'ebook-meta'
+      opts.on('-m', '--meta-binary path', "The ebook-meta executable [default - 'ebook-meta']") do |binary|
         options[:meta_binary] = binary
       end
 
