@@ -5,24 +5,33 @@ the metadata within the ebook itself (if available).
 
 ### Why do I wrote this gem
 
-Almost alwasy when I purchase a new ebooks (or download them from the internet) they always came with the
-bad name. I really like the meaningful name to the file that I have. This make it easy to search for them
-and give you the context to the content of the file.
+Almost always when I purchase an ebook (or download a file from the internet) it always came with the
+bad name. I really like the meaningful name to the file that I have and really hate to rename them manually.
 
-I wrote this gem just to make it possible to rename in bulk and recursively.
+I wrote this gem just to make it easy to rename the files in bulk and recursively.
 
-This gem will rename any ebook files (currently only pdf, epub, mobi) using the available
-meta-data that embedded within the ebook.
+This gem will rename any ebook files (pdf, epub, mobi) using the available
+meta-data that embedded within them.
 
 So if you don't like to spend time renaming them manually then this gem is for you.
+
+### How the file is renamed
+
+The file will be renamed using the following format `<title>.by.<author(s)>`.`<extension>`
+
+Also the final file name will be sanitized e.g. any multiple occurence of special characters will be
+replace by one dot `.`.
+
+For example if the meta-data of the ebook contain the title `Start with Why: How Grate Leader Inspire Everyone to Take Action`
+and the author is `Simon Sinek` then the output will be `Start.with.Why.How.Great.Leader.Inspire.Everyone.to.Take.Action.by.Simon.Sinek.pdf`
+Note that the `:` and one space before the word `How` is replaced with just one dot string.
 
 ### What you will need
 
 * You will need to install the [Calibre](http://www.calibre-ebook.com/) and
   [Calibre CLI](http://manual.calibre-ebook.com/cli/cli-index.html) on your OS.
 
-* This gem should work on OSX/Linux like system. It may work with Windows system but I can't confirm
-as I don't use windows for quite sometime now.
+* Linux or Mac OSX operating system
 
 ### Problems/Issues
 
@@ -83,7 +92,7 @@ Run the command without making any changes
 You should see the result like the following
 
 ```
-I, [2014-04-05T17:28:10.683671 #79795]  INFO -- : Your options: {:base_dir=>"test/fixtures/ebooks/", :meta_binary=>"ebook-meta", :recursive=>true, :commit=>false}
+Your options: {:base_dir=>"test/fixtures/ebooks/", :meta_binary=>"ebook-meta", :recursive=>true, :commit=>false}
 Input :test/fixtures/ebooks/demo1.pdf
 Output:test/fixtures/ebooks/Fearless.Refactoring.by.Andrzej.Krzywda.pdf
 Input :test/fixtures/ebooks/demo2.epub
@@ -92,7 +101,6 @@ Input :test/fixtures/ebooks/subdir/demo3.pdf
 Output:test/fixtures/ebooks/subdir/Reliably.Deploying.Rails.Applications.by.Ben.Dixon.pdf
 Input :test/fixtures/ebooks/subdir/demo4.epub
 Output:test/fixtures/ebooks/subdir/EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub
-
 ```
 
 To actually rename the files using the following command
@@ -101,8 +109,16 @@ To actually rename the files using the following command
 ./bin/ebook_renamer --base-dir ./test/fixtures/ebooks --recursive --commit
 # or short version
 ./bin/ebook_renamer -b ./test/fixtures/ebooks -r -c
-
 ```
+
+Note:
+
+The file will be renamed using the following format `<title>.by.<author(s)>`.`<extension>`
+Also the final file name will be sanitized e.g. any special characters will be
+converted to one dot `.`.
+
+For example if the title is `Start with Why: How Grate Leader Inspire Everyone to Take Action` and the author is `Simon Sinek` then
+the output will be something like `Start.with.Why.How.Great.Leader.Inspire.Everyone.to.Take.Action.by.Simon.Sinek.pdf` etc.
 
 ### Sample Usage (from `ebook_renamer --help`)
 
@@ -141,6 +157,10 @@ To actually rename the files using the following command
 ```
 
 ### Changelog
+
+#### 0.0.6
+
+- Fix and update README.md
 
 #### 0.0.5
 
