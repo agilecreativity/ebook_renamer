@@ -52,11 +52,56 @@ ebook_renamer --base-dir ~/Dropbox/ebooks/samples
 # If you like to see the usage try
 ebook_renamer --help
 
-# Run the command without to see what will be changed without making any changes (dry-run)
+# Run the command without making any changes to the files (dry-run)
 ebook_rename  --recursive
 
 # Once you are happy with what you see, then
 ebook_renamer --recusive --commit
+```
+
+### Example Outputs
+
+Original files before
+
+```
+test/fixtures/
+└── ebooks
+    ├── demo1.pdf
+    ├── demo2.epub
+    └── subdir
+        ├── demo3.pdf
+        └── demo4.epub
+2 directories, 4 files
+```
+
+Run the command without making any changes
+
+```sh
+./bin/ebook_renamer --base-dir ./test/fixtures/ebooks --recursive
+```
+
+You should see the result like the following
+
+```
+I, [2014-04-05T17:28:10.683671 #79795]  INFO -- : Your options: {:base_dir=>"test/fixtures/ebooks/", :meta_binary=>"ebook-meta", :recursive=>true, :commit=>false}
+Input :test/fixtures/ebooks/demo1.pdf
+Output:test/fixtures/ebooks/Fearless.Refactoring.by.Andrzej.Krzywda.pdf
+Input :test/fixtures/ebooks/demo2.epub
+Output:test/fixtures/ebooks/EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub
+Input :test/fixtures/ebooks/subdir/demo3.pdf
+Output:test/fixtures/ebooks/subdir/Reliably.Deploying.Rails.Applications.by.Ben.Dixon.pdf
+Input :test/fixtures/ebooks/subdir/demo4.epub
+Output:test/fixtures/ebooks/subdir/EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub
+
+```
+
+To actually rename the files using the following command
+
+```sh
+./bin/ebook_renamer --base-dir ./test/fixtures/ebooks --recursive --commit
+# or short version
+./bin/ebook_renamer -b ./test/fixtures/ebooks -r -c
+
 ```
 
 ### Sample Usage (from `ebook_renamer --help`)
@@ -96,6 +141,10 @@ ebook_renamer --recusive --commit
 ```
 
 ### Changelog
+
+#### 0.0.5
+
+- Update the README.md to include usage example
 
 #### 0.0.4
 
