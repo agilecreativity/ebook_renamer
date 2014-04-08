@@ -9,7 +9,6 @@ end
 
 task :default => :test
 
-## see: http://erniemiller.org/2014/02/05/7-lines-every-gems-rakefile-should-have/
 task :irb do
   require 'irb'
   require 'awesome_print'
@@ -20,7 +19,6 @@ task :irb do
   IRB.start
 end
 
-## see: http://lucapette.com/pry/pry-everywhere/
 task :pry do
   require 'pry'
   require 'awesome_print'

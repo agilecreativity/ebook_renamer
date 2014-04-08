@@ -1,32 +1,8 @@
 #!/usr/bin/env ruby
-begin
-  require 'ebook_renamer'
-rescue LoadError
-  $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
-  require 'ebook_renamer'
-end
-
+require 'thor'
+require 'pry'
+require_relative '../lib/ebook_renamer'
+require_relative '../lib/ebook_renamer/helper'
+require_relative '../lib/ebook_renamer/version'
 include EbookRenamer
-include EbookRenamer::Options
-require 'ostruct'
-
-begin
-  options = parse_options()
-  EbookRenamer.logger.debug "Your options: #{options}"
-
-  #meta_binary = options.delete(:meta_binary)
-  sep_string  = options.delete(:sep_string)
-
-  EbookRenamer.configure do |config|
-    #config.meta_binary = meta_binary if meta_binary
-    config.sep_string  = sep_string  if sep_string
-  end
-
-  cli = EbookRenamer::CLI.new(EbookRenamer.configuration)
-  cli.rename(options[:base_dir], options)
-  exit 0
-rescue ArgumentError => e
-  puts e
-  exit 1
-end
-# vim: ft=ruby
+EbookRenamer::Command.start(ARGV)

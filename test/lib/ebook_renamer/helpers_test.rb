@@ -1,15 +1,15 @@
 require_relative '../../test_helper'
 describe EbookRenamer do
 
-  subject { EbookRenamer::Helpers }
+  include EbookRenamer
 
   before do
-    @sample = EbookRenamer::Helpers.meta("./test/fixtures/ebooks/demo1.pdf")
+    @sample = meta("./test/fixtures/ebooks/demo1.pdf")
   end
 
   context "#meta" do
     it "raises error on invalid input" do
-      ->{ subject.meta("invalid-filename") }.must_raise RuntimeError
+      ->{ meta("invalid-filename") }.must_raise RuntimeError
     end
 
     it "returns valid valid input" do
@@ -20,16 +20,16 @@ describe EbookRenamer do
 
   context "#meta_to_hash" do
     it 'returns empty hash' do
-      subject.meta_to_hash(nil).must_be_empty
+      meta_to_hash(nil).must_be_empty
     end
     it 'returns non-empty hash' do
-      hash = EbookRenamer::Helpers.meta_to_hash(@sample)
+      hash = meta_to_hash(@sample)
       hash.wont_be_empty
     end
 
     describe 'invalid format' do
       it 'return empty hash' do
-        subject.meta_to_hash('aa bb').must_equal({})
+        meta_to_hash('aa bb').must_equal({})
       end
     end
 
@@ -44,7 +44,7 @@ describe EbookRenamer do
         END
       }
 
-      let(:result) { subject.meta_to_hash(sample) }
+      let(:result) { meta_to_hash(sample) }
 
       it "returns proper type for result" do
         result.must_be_instance_of Hash
@@ -62,31 +62,31 @@ describe EbookRenamer do
 
   context "#sanitize_filename" do
     it "must be defined" do
-      subject.must_respond_to :sanitize_filename
+      must_respond_to :sanitize_filename
     end
 
     it "replaces multiple valid chars with one" do
-      subject.sanitize_filename('Valid-    -fil3_name......___   .txt').must_equal('Valid.fil3.name.txt')
+      sanitize_filename('Valid-    -fil3_name......___   .txt').must_equal('Valid.fil3.name.txt')
     end
 
     it "replaces multiple valid chars with one" do
-      subject.sanitize_filename('valid filename_.txt').must_equal('valid.filename.txt')
+      sanitize_filename('valid filename_.txt').must_equal('valid.filename.txt')
     end
 
     it "uses sepc_char correctly" do
-      subject.sanitize_filename('valid.file name.txt','_').must_equal('valid_file_name.txt')
+      sanitize_filename('valid.file name.txt','_').must_equal('valid_file_name.txt')
     end
   end
 
   context '#which' do
     describe 'valid executable' do
       it 'works with valid executable' do
-        subject.which('ruby').wont_be_nil
+        which('ruby').wont_be_nil
       end
     end
     describe 'invalid executable' do
       it 'works with invalid executable' do
-        subject.which('@not-a-valid-executable!').must_be_nil
+        which('@not-a-valid-executable!').must_be_nil
       end
     end
   end
@@ -94,29 +94,29 @@ describe EbookRenamer do
   context '#formatted_name' do
     describe 'invalid parameters' do
       it 'raises exception on nil arguments' do
-        -> { subject.formatted_name({}, nil)}.must_raise ArgumentError
+        -> { formatted_name({}, nil)}.must_raise ArgumentError
       end
       it 'returns nil on empty hash' do
-        subject.formatted_name({}, {}).must_be_empty
+        formatted_name({}, {}).must_be_empty
       end
     end
 
     describe 'valid parameters' do
       it 'returns result based on single key' do
-        subject.formatted_name({'title'      => 'The Firm',
-                                'author'     => 'John Grisham',
-                                'page count' => 399 },
-                                 keys: ['title']).must_equal 'The Firm'
+        formatted_name({'title'      => 'The Firm',
+                        'author'     => 'John Grisham',
+                        'page count' => 399 },
+                        keys: ['title']).must_equal 'The Firm'
       end
 
       it 'returns result based for multiple keys' do
-        subject.formatted_name({'title'      => 'The Firm',
-                                'author'     => 'John Grisham',
-                                'page count' => '399' },
-                                 sep_char: ':',
-                                 keys: ['title',
-                                        'author',
-                                        'page count']).must_equal 'The Firm:John Grisham:399'
+        formatted_name({'title'      => 'The Firm',
+                        'author'     => 'John Grisham',
+                        'page count' => '399' },
+                        sep_char: ':',
+                        keys: ['title',
+                               'author',
+                               'page count']).must_equal 'The Firm:John Grisham:399'
       end
     end
   end
