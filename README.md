@@ -52,13 +52,13 @@ $cd ~/Dropbox/ebooks/
 $ebook_renamer rename --base-dir ~/Dropbox/ebooks/samples
 
 # For help on how to use the gem just type without any options.
-ebook_renamer
+$ebook_renamer
 
 # Run the command without making any changes to the files (dry-run) in the current directory
-$ebook_renamer  --base-dir . --recursive
+$ebook_renamer rename --base-dir . --recursive
 
 # Once you are happy with what result then
-$ebook_renamer --base-dir . --recursive --commit
+$ebook_renamer rename --base-dir . --recursive --commit
 ```
 
 ### Example Outputs
