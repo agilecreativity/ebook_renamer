@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 require 'thor'
-require 'pry'
 require_relative '../lib/ebook_renamer'
 require_relative '../lib/ebook_renamer/helper'
 require_relative '../lib/ebook_renamer/version'
+
 include EbookRenamer
 EbookRenamer::Command.start(ARGV)

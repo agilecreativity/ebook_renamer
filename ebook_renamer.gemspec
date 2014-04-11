@@ -17,10 +17,11 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_runtime_dependency "thor", "~> 0.18"
+  spec.add_runtime_dependency "awesome_print", "~> 1.2"
+
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
-  spec.add_development_dependency "thor"
-
   spec.add_development_dependency "minitest-spec-context", "~> 0.0.3"
   spec.add_development_dependency "guard-minitest", "~> 2.2"
   spec.add_development_dependency "minitest", "~> 4.2"

@@ -1,6 +1,7 @@
 require 'thor'
 require 'ap'
 module EbookRenamer
+
   class Command < Thor
     desc "rename", "Rename ebook files (pdf,epub,mobi)"
 

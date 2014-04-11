@@ -135,6 +135,10 @@ Rename ebook files (pdf,epub,mobi)
 
 ### Changelog
 
+#### 0.0.9
+
+- Make sure the gemspec include the proper dependencies.
+
 #### 0.0.8
 
 - Use Thor instead of OptionParser for parsing of options
