@@ -1,7 +1,9 @@
-## Ebook_Renamer
+## ebook_renamer
 
-Simple utility to perform bulk rename of the ebooks(epub,mobi,pdf) based on
-the metadata within the ebook itself (if available).
+[![Gem Version](https://badge.fury.io/rb/ebook_renamer.svg)](http://badge.fury.io/rb/ebook_renamer)
+
+Simple utility to perform bulk rename of ebook files (epub,mobi,pdf) based on
+the embedded meta-data (title, author(s)).
 
 ### Why do I wrote this gem
 
@@ -59,6 +61,8 @@ $ebook_renamer rename --base-dir . --recursive
 
 # Once you are happy with what result then
 $ebook_renamer rename --base-dir . --recursive --commit
+or the short version
+$ebook_renamer rename -b . -r -c
 ```
 
 ### Example Outputs
@@ -135,6 +139,11 @@ Rename ebook files (pdf,epub,mobi)
 
 ### Changelog
 
+#### 0.1.0
+
+- Add link to the version badge to link to latest gem.
+- Minor clean-up
+
 #### 0.0.9
 
 - Make sure the gemspec include the proper dependencies.
@@ -145,7 +154,7 @@ Rename ebook files (pdf,epub,mobi)
 
 #### 0.0.2 - 0.0.7
 
-- Improvement of code and fix the few bugs a long the way
+- Improvement of code and fix a few bugs a long the way
 
 #### 0.0.1
 

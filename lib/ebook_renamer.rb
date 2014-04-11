@@ -41,10 +41,10 @@ module EbookRenamer
 
     def rename
       args = options.symbolize_keys
-      puts "Your argument: #{args}"
+      #puts "Your argument: #{args}"
 
       if options[:version]
-        puts EbookRenamer::VERSION
+        puts "You are using ebook_renamer version #{EbookRenamer::VERSION}"
         exit
       end
 

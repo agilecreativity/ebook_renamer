@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = EbookRenamer::VERSION
   spec.authors       = ["Burin Choomnuan"]
   spec.email         = ["agilecreativity@gmail.com"]
-  spec.description   = %q{Bulk rename of ebook files based on available metadata}
-  spec.summary       = %q{Rename multiple ebook files (epub, mobi, pdf) based on existing metadata in the file}
+  spec.description   = %q{Bulk rename of ebook files (pdf, epub, mobi) based on embedded meta-data}
+  spec.summary       = %q{Rename multiple ebook files (pdf, epub, mobi) based on existing meta-data in the file}
   spec.homepage      = "https://github.com/agilecreativity/ebook_renamer"
   spec.license       = "MIT"
   spec.files         = `git ls-files`.split($/)
@@ -25,7 +25,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest-spec-context", "~> 0.0.3"
   spec.add_development_dependency "guard-minitest", "~> 2.2"
   spec.add_development_dependency "minitest", "~> 4.2"
-  spec.add_development_dependency "awesome_print", "~> 1.2"
   spec.add_development_dependency "guard", "~> 2.6"
   spec.add_development_dependency "pry", "~> 0.9"
   spec.add_development_dependency "gem-ctags", "~> 1.0"
