@@ -9,16 +9,6 @@ end
 
 task :default => :test
 
-task :irb do
-  require 'irb'
-  require 'awesome_print'
-  require 'irb/completion'
-  require 'ebook_renamer'
-  include EbookRenamer
-  ARGV.clear
-  IRB.start
-end
-
 task :pry do
   require 'pry'
   require 'awesome_print'

@@ -1,7 +1,8 @@
 require 'open3'
 require 'fileutils'
 require 'shellwords'
-require_relative "./core_ext/hash"
+require_relative '../ebook_renamer'
+
 module EbookRenamer
 
   EbookMetaNotInstall = Class.new(StandardError)

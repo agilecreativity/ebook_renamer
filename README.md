@@ -121,23 +121,32 @@ test/fixtures/
 
 ```
 Usage:
-  ebook_renamer rename
+  cli.rb rename [OPTIONS]
 
 Options:
-  -b, [--base-dir=BASE_DIR]            # Base directory
-                                       # Default: /home/bchoomnuan/Dropbox/spikes/ebooks-renamer
-  -e, [--exts=one two three]           # List of extensions to search for
-                                       # Default: ["pdf", "epub", "mobi"]
-  -s, [--sep-string=SEP_STRING]        # Separator string between words in filename
-                                       # Default: .
-  -c, [--commit], [--no-commit]        # Make change permanent
-  -r, [--recursive], [--no-recursive]  # Search for files recursively
-  -v, [--version], [--no-version]      # Display version information
+  -b, [--base-dir=BASE_DIR]                # Base directory
+                                           # Default: /Users/agilecreativity/Dropbox/spikes/ebooks-renamer
+  -e, [--exts=one two three]               # List of extensions to search for
+  -f, [--non-exts=one two three]           # List of files without extension to search for
+  -n, [--inc-words=one two three]          # List of words to be included in the result if any
+  -x, [--exc-words=one two three]          # List of words to be excluded from the result if any
+  -i, [--ignore-case], [--no-ignore-case]  # Match case insensitively
+                                           # Default: true
+  -r, [--recursive], [--no-recursive]      # Search for files recursively
+                                           # Default: true
+  -v, [--version], [--no-version]          # Display version information
+  -s, [--sep-string=SEP_STRING]            # Separator string between words in filename
+                                           # Default: .
+  -c, [--commit], [--no-commit]            # Make change permanent
 
-Rename ebook files (pdf,epub,mobi)
+Rename multiple ebook files (pdf,epub,mobi)
 ```
 
 ### Changelog
+
+#### 0.1.1
+
+- Make use of the 'code_lister' for better option
 
 #### 0.1.0
 

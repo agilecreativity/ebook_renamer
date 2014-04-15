@@ -18,10 +18,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "thor", "~> 0.18"
-  spec.add_runtime_dependency "awesome_print", "~> 1.2"
+  spec.add_runtime_dependency "code_lister", "~> 0.0.6"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "awesome_print", "~> 1.2"
   spec.add_development_dependency "minitest-spec-context", "~> 0.0.3"
   spec.add_development_dependency "guard-minitest", "~> 2.2"
   spec.add_development_dependency "minitest", "~> 4.2"
