@@ -2,17 +2,8 @@
 
 [![Gem Version](https://badge.fury.io/rb/ebook_renamer.svg)](http://badge.fury.io/rb/ebook_renamer)
 
-Simple utility to perform bulk rename of ebook files (epub,mobi,pdf) based on
-the embedded meta-data (title, author(s)).
-
-### Why do I wrote this gem
-
-Almost always, when I get an ebook it does not have a good file name.
-This is very annoying as it does not work well when you want to search for it later.
-
-I wrote this gem just to make it possible to rename multiple ebook files at once using the
-available meta-data from each file. I like to be able to use this on the single folder or recursively from
-a given folder.
+Perform bulk rename of ebook files (epub,mobi,pdf, and any other extensions supported by Calibre)
+based on the embedded meta-data (title, author(s)).
 
 ### How the file is renamed
 
@@ -22,15 +13,20 @@ Also the final file name will be sanitized e.g. any multiple occurence of specia
 replace by one dot `.`.
 
 For example if the ebook contain the title `Start with Why: How Grate Leader Inspire Everyone to Take Action`
-and the author is `Simon Sinek` then the default output will be `Start.with.Why.How.Great.Leader.Inspire.Everyone.to.Take.Action.by.Simon.Sinek.pdf`
+and the author is `Simon Sinek` then the default output will be
+`Start.with.Why.How.Great.Leader.Inspire.Everyone.to.Take.Action.by.Simon.Sinek.pdf`
 Note that the `:` and one space before the word `How` is replaced with just one dot string.
 
-if the `--sep-string` is used then the output will be `Start_with_Why_How_Great_Leader_Inspire_Everyone_to_Take_Action_by_Simon_Sinek.pdf` for `--sep-string _` argument.
+if the `--sep-string _` is used then the output will be
+`Start_with_Why_How_Great_Leader_Inspire_Everyone_to_Take_Action_by_Simon_Sinek.pdf`.
 
 ### What you will need
 
 * You will need to install the [Calibre](http://www.calibre-ebook.com/) and
   [Calibre CLI](http://manual.calibre-ebook.com/cli/cli-index.html) on your OS.
+
+  In particular the gem is looking for the `ebook-meta` binary in a path.
+  If this is not installed the error will be raised.
 
 * Linux or Mac OSX operating system
 
@@ -83,28 +79,40 @@ test/fixtures/
 Run the command without making any changes
 
 ```sh
-./bin/ebook_renamer rename --base-dir ./test/fixtures/ebooks --recursive
+ebook_renamer rename --base-dir -e epub pdf ./test/fixtures/ebooks --recursive
 ```
 
 You should see the result like the following
 
 ```
-Your argument: {:base_dir=>".", :exts=>["pdf", "epub", "mobi"], :sep_string=>".", :commit=>false, :recursive=>true, :version=>false}
+Your options :{:base_dir=>"test/fixtures/ebooks/",
+               :exts=>["epub", "pdf"],
+               :non_exts=>[],
+               :inc_words=>[],
+               :exc_words=>[],
+               :ignore_case=>true,
+               :recursive=>true,
+               :version=>false,
+               :sep_string=>".",
+               :commit=>false}
 Changes will not be applied without the --commit option.
-[./test/fixtures/ebooks/demo1.pdf] -> [./test/fixtures/ebooks/Fearless.Refactoring.by.Andrzej.Krzywda.pdf]
-[./test/fixtures/ebooks/demo2.epub] -> [./test/fixtures/ebooks/EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub]
-[./test/fixtures/ebooks/subdir/demo1.pdf] -> [./test/fixtures/ebooks/subdir/Reliably.Deploying.Rails.Applications.by.Ben.Dixon.pdf]
-[./test/fixtures/ebooks/subdir/demo2.epub] -> [./test/fixtures/ebooks/subdir/EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub]
+
+[test/fixtures/ebooks/demo1.pdf] -> [test/fixtures/ebooks/Fearless.Refactoring.by.Andrzej.Krzywda.pdf]
+[test/fixtures/ebooks/demo2.epub] -> [test/fixtures/ebooks/EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub]
+[test/fixtures/ebooks/subdir/demo1.pdf] -> [test/fixtures/ebooks/subdir/Reliably.Deploying.Rails.Applications.by.Ben.Dixon.pdf]
+[test/fixtures/ebooks/subdir/demo2.epub] -> [test/fixtures/ebooks/subdir/EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub]
+
 ```
 
-To actually make the actual rename just pass in the `--commit` option like
+To actually make the actual rename just pass in the `--commit` option like so:
 
 ```sh
-./bin/ebook_renamer rename --base-dir ./test/fixtures/ebooks --recursive --commit
-./bin/ebook_renamer rename -b ./test/fixtures/ebooks -r -c
+./bin/ebook_renamer rename --base-dir ./test/fixtures/ebooks -e epub pdf --recursive --commit
+# or short version
+./bin/ebook_renamer rename -b ./test/fixtures/ebooks -e epub pdf -r -c
 ```
 
-The final output should be like
+The final output should be something like:
 
 ```
 test/fixtures/
@@ -119,13 +127,15 @@ test/fixtures/
 
 ### Sample Usage
 
+To get the help just type `ebook_renamer` without any argument
+
 ```
 Usage:
-  cli.rb rename [OPTIONS]
+  ebook_renamer rename [OPTIONS]
 
 Options:
   -b, [--base-dir=BASE_DIR]                # Base directory
-                                           # Default: /Users/agilecreativity/Dropbox/spikes/ebooks-renamer
+                                           # Default: . (current directory)
   -e, [--exts=one two three]               # List of extensions to search for
   -f, [--non-exts=one two three]           # List of files without extension to search for
   -n, [--inc-words=one two three]          # List of words to be included in the result if any
@@ -146,7 +156,8 @@ Rename multiple ebook files (pdf,epub,mobi)
 
 #### 0.1.1
 
-- Make use of the 'code_lister' for better option
+- Make use of the 'code_lister' for better options [see: `ebook_renamer` for detail]
+- The --exts must be specified explicitly as `code_lister` is not set any extension by default.
 
 #### 0.1.0
 
