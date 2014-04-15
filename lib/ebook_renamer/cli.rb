@@ -18,16 +18,18 @@ module EbookRenamer
                   type: :boolean,
                   default: false
     def rename
-      args = options.symbolize_keys
+      opts = options.symbolize_keys
 
-      if options[:version]
+      # Note: by default the 'code_lister' for exts: is [].
+      # To make it more user friendly, we explicitly set the extension
+      # to %w(pdf epub mobi) to avoid the need for explicit value by the user
+      opts[:exts] = %w(pdf epub mobi) if opts.fetch(:exts, []).empty?
+
+      if opts[:version]
         puts "You are using EbookRenamer version #{EbookRenamer::VERSION}"
         exit
       end
-
-      puts "Your options :#{args}"
-
-      execute(args)
+      execute(opts)
     end
 
     desc "usage", "Display help screen"
@@ -69,14 +71,13 @@ Rename multiple ebook files (pdf,epub,mobi)
     #   :exts      - list of extensions to be processed default to ['epub,mobi,pdf']
     #
     # @param args [Hash<Symbol, Object>] options argument
-    def execute(args = {})
+    def execute(options = {})
       meta_binary = "ebook-meta"
-      options = default_options.merge(args)
 
-      input_files = files(options[:base_dir], options).sort
+      input_files = CodeLister.files(options)
 
       if input_files.empty?
-        puts "No file found for your option:", options
+        puts "No file found for your option: #{options}"
         return
       end
 
@@ -97,16 +98,6 @@ Rename multiple ebook files (pdf,epub,mobi)
           next
         end
       end
-    end
-
-    def default_options
-      options = {
-        base_dir: Dir.pwd,
-        recursive: false,
-        commit: false,
-        exts: %w(epub mobi pdf),
-        sep_string: '.'
-      }
     end
   end
 end

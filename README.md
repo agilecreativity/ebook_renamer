@@ -162,7 +162,8 @@ Rename multiple ebook files (pdf,epub,mobi)
 #### 0.1.0
 
 - Add link to the version badge to link to latest gem.
-- Minor clean-up
+- Implicitly set the default value for extension to `pdf,epub,mobi` if
+  not explicitly set by the user at the command line.
 
 #### 0.0.9
 
