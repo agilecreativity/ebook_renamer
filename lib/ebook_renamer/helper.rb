@@ -63,7 +63,7 @@ module EbookRenamer
     filename.gsub!(/[^0-9A-Za-z\-_ ]/, dot)
 
     # replace multiple occurrences of a given char with a dot
-    ['-','_',' '].each do |c|
+    ['-', '_', ' '].each do |c|
       filename.gsub!(/#{Regexp.quote(c)}+/, dot)
     end
 
@@ -112,8 +112,10 @@ module EbookRenamer
 
     # The keys that we get from the 'mdls' or 'exiftool'
     args = {
-      keys: ['title',
-              'author(s)'],
+      keys: [
+        'title',
+        'author(s)'
+      ],
       sep_char: ' '
     }.merge(fields)
 
@@ -133,7 +135,7 @@ module EbookRenamer
       return result.join(sep_char)
     end
     # Note: if no title we choose to return empty value for result
-    return ""
+    ""
   end
 
   # Ensure that the values in hash are sanitized

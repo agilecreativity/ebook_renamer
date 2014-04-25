@@ -154,31 +154,28 @@ Rename multiple ebook files (pdf,epub,mobi)
 
 ### Changelog
 
-#### 0.1.1
+#### 0.1.2
+- Make use of [agile_utils] gem
+- Add TODOs.md
 
-- Make use of the 'code_lister' for better options [see: `ebook_renamer` for detail]
-- The --exts must be specified explicitly as `code_lister` is not set any extension by default.
+#### 0.1.1
+- Make use of the [code_lister][] gem
 
 #### 0.1.0
-
 - Add link to the version badge to link to latest gem.
 - Implicitly set the default value for extension to `pdf,epub,mobi` if
   not explicitly set by the user at the command line.
 
 #### 0.0.9
-
 - Make sure the gemspec include the proper dependencies.
 
 #### 0.0.8
-
 - Use Thor instead of OptionParser for parsing of options
 
 #### 0.0.2 - 0.0.7
-
 - Improvement of code and fix a few bugs a long the way
 
 #### 0.0.1
-
 - Initial release
 
 ### Contributing
@@ -189,3 +186,6 @@ Rename multiple ebook files (pdf,epub,mobi)
 4. Make sure that you add the tests and ensure that all tests are passed
 5. Push to the branch (`git push origin my-new-feature`)
 6. Create new Pull Request
+
+[agile_utils]: https://rubygems.org/gems/agile_utils
+[code_lister]: https://rubygems.org/gems/code_lister

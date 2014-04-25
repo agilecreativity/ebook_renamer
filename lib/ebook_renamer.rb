@@ -1,5 +1,6 @@
 require 'thor'
 require 'code_lister'
+require 'agile_utils'
 require_relative 'ebook_renamer/core_ext/hash'
 require_relative 'ebook_renamer/version'
 require_relative 'ebook_renamer/logger'

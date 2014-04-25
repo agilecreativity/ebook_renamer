@@ -2,10 +2,17 @@ require 'code_lister'
 require_relative '../ebook_renamer'
 
 module EbookRenamer
-  class CLI < CodeLister::BaseCLI
+  class CLI < Thor
     desc 'rename', 'Rename multiple ebook files (pdf,epub,mobi)'
 
-    shared_options
+    method_option *AgileUtils::Options::BASE_DIR
+    method_option *AgileUtils::Options::EXTS
+    method_option *AgileUtils::Options::NON_EXTS
+    method_option *AgileUtils::Options::INC_WORDS
+    method_option *AgileUtils::Options::EXC_WORDS
+    method_option *AgileUtils::Options::IGNORE_CASE
+    method_option *AgileUtils::Options::RECURSIVE
+    method_option *AgileUtils::Options::VERSION
 
     method_option :sep_string,
                   aliases: "-s",
