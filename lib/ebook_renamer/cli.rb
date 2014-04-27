@@ -1,3 +1,4 @@
+require 'agile_utils'
 require 'code_lister'
 require_relative '../ebook_renamer'
 

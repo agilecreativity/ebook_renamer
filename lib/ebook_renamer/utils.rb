@@ -58,10 +58,8 @@ module EbookRenamer
   # @return [String] the new file name with special characters replaced or removed.
   def sanitize_filename(filename, sep_char = nil)
     dot = "."
-
     # Note exclude the '.' (dot)
     filename.gsub!(/[^0-9A-Za-z\-_ ]/, dot)
-
     # replace multiple occurrences of a given char with a dot
     ['-', '_', ' '].each do |c|
       filename.gsub!(/#{Regexp.quote(c)}+/, dot)
@@ -69,16 +67,7 @@ module EbookRenamer
 
     # replace multiple occurrence of dot with one dot
     filename.gsub!(/#{Regexp.quote(dot)}+/, dot)
-
-    if sep_char
-      # File.basename("demo.txt", ".*") #=> "demo"
-      name_only = File.basename(filename, ".*")
-      # File.extname("demo.txt")        #=> ".txt"
-      ext_only = File.extname(filename)
-      name_only.gsub!(/#{Regexp.quote(dot)}+/, sep_char)
-      return "#{name_only}#{ext_only}"
-    end
-
+    return filename.gsub!(/#{Regexp.quote(dot)}+/, sep_char) if sep_char
     filename.strip
   end
 

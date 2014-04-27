@@ -66,15 +66,22 @@ describe EbookRenamer do
     end
 
     it "replaces multiple valid chars with one" do
-      sanitize_filename('Valid-    -fil3_name......___   .txt').must_equal('Valid.fil3.name.txt')
+      sanitize_filename('Valid-    -fil3_name......___   ').must_equal('Valid.fil3.name.')
     end
 
     it "replaces multiple valid chars with one" do
-      sanitize_filename('valid filename_.txt').must_equal('valid.filename.txt')
+      sanitize_filename('valid!!___filename').must_equal('valid.filename')
     end
 
-    it "uses sepc_char correctly" do
-      sanitize_filename('valid.file name.txt','_').must_equal('valid_file_name.txt')
+    it "uses specify separator char correctly" do
+      sanitize_filename('valid.file name','_').must_equal('valid_file_name')
+    end
+
+    it "replaces mutliple separator char with one" do
+      sanitize_filename('input&!:.file name$only','-').must_equal('input-file-name-only')
+    end
+    it "handles the end char properly" do
+      sanitize_filename('input&!:.file name$only!!&$','-').must_equal('input-file-name-only-')
     end
   end
 

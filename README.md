@@ -154,28 +154,41 @@ Rename multiple ebook files (pdf,epub,mobi)
 
 ### Changelog
 
+#### 0.1.3
+
+- Make sanitize_filename work properly with `--sep-string` option
+- Use symbolize_keys from [agile_utils][] gem
+- Fix the Guardfile and misc cleanup
+
 #### 0.1.2
+
 - Make use of [agile_utils] gem
 - Add TODOs.md
 
 #### 0.1.1
+
 - Make use of the [code_lister][] gem
 
 #### 0.1.0
+
 - Add link to the version badge to link to latest gem.
 - Implicitly set the default value for extension to `pdf,epub,mobi` if
   not explicitly set by the user at the command line.
 
 #### 0.0.9
+
 - Make sure the gemspec include the proper dependencies.
 
 #### 0.0.8
+
 - Use Thor instead of OptionParser for parsing of options
 
 #### 0.0.2 - 0.0.7
+
 - Improvement of code and fix a few bugs a long the way
 
 #### 0.0.1
+
 - Initial release
 
 ### Contributing
