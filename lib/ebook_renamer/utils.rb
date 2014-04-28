@@ -13,7 +13,7 @@ module EbookRenamer
   # @param [String] binary the executable for use to extract the metadata
   # @return [String] result of the output from running the command
   def meta(filename, binary = 'ebook-meta')
-    raise EbookMetaNotInstall, "Need to install ebook-meta to use this gem" if which(binary).nil?
+    raise EbookMetaNotInstall, "Need to install ebook-meta to use this gem" if AgileUtils::Helper.which(binary).nil?
     command = [
       binary,
       Shellwords.escape(filename)
@@ -69,25 +69,6 @@ module EbookRenamer
     filename.gsub!(/#{Regexp.quote(dot)}+/, dot)
     return filename.gsub!(/#{Regexp.quote(dot)}+/, sep_char) if sep_char
     filename.strip
-  end
-
-  # Cross-platform way of finding an executable in the $PATH.
-  #
-  # @param command [String] the command to look up
-  # @return [String, NilClass] full path to the executable file or nil if the
-  #  executable is not valid or available.
-  # Example:
-  #   which('ruby')           #=> /usr/bin/ruby
-  #   which('bad-executable') #=> nil
-  def which(command)
-    exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
-    ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
-      exts.each { |ext|
-        exe = File.join(path, "#{command}#{ext}")
-        return exe if File.executable? exe
-      }
-    end
-    return nil
   end
 
   # Return formatted file name using the metadata values

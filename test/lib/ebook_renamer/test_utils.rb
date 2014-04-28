@@ -85,19 +85,6 @@ describe EbookRenamer do
     end
   end
 
-  context '#which' do
-    describe 'valid executable' do
-      it 'works with valid executable' do
-        which('ruby').wont_be_nil
-      end
-    end
-    describe 'invalid executable' do
-      it 'works with invalid executable' do
-        which('@not-a-valid-executable!').must_be_nil
-      end
-    end
-  end
-
   context '#formatted_name' do
     describe 'invalid parameters' do
       it 'raises exception on nil arguments' do

@@ -1,6 +1,8 @@
 ## ebook_renamer
 
 [![Gem Version](https://badge.fury.io/rb/ebook_renamer.svg)](http://badge.fury.io/rb/ebook_renamer)
+[![Dependency Status](https://gemnasium.com/agilecreativity/ebook_renamer.png)](https://gemnasium.com/agilecreativity/ebook_renamer)
+[![Code Climate](https://codeclimate.com/github/agilecreativity/ebook_renamer.png)](https://codeclimate.com/github/agilecreativity/ebook_renamer)
 
 Perform bulk rename of ebook files (epub,mobi,pdf, and any other extensions supported by Calibre)
 based on the embedded meta-data (title, author(s)).
@@ -153,6 +155,12 @@ Rename multiple ebook files (pdf,epub,mobi)
 ```
 
 ### Changelog
+
+#### 0.1.4
+
+- Make use of functions from 'agile_utils' to promote code re-use
+- Make Rakefile pickup the right code for testing
+- Update README.md to include code_climate and gemnasium
 
 #### 0.1.3
 

@@ -3,7 +3,7 @@ require "rake/testtask"
 
 Rake::TestTask.new do |t|
   t.libs << 'lib/ebook_renamer'
-  t.test_files = FileList['test/lib/ebook_renamer/*_test.rb']
+  t.test_files = FileList['test/lib/ebook_renamer/test_*.rb']
   t.verbose = true
 end
 
