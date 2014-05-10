@@ -1,12 +1,17 @@
-## ebook_renamer
+ebook_renamer
+=============
 
-[![Gem Version](https://badge.fury.io/rb/ebook_renamer.svg)](http://badge.fury.io/rb/ebook_renamer)
-[![Dependency Status](https://gemnasium.com/agilecreativity/ebook_renamer.png)](https://gemnasium.com/agilecreativity/ebook_renamer)
-[![Code Climate](https://codeclimate.com/github/agilecreativity/ebook_renamer.png)](https://codeclimate.com/github/agilecreativity/ebook_renamer)
+[![Gem Version](https://badge.fury.io/rb/ebook_renamer.svg)][gem]
+[![Dependency Status](https://gemnasium.com/agilecreativity/ebook_renamer.png)][gemnasium]
+[![Code Climate](https://codeclimate.com/github/agilecreativity/ebook_renamer.png)][codeclimate]
+
+[gem]: http://badge.fury.io/rb/ebook_renamer
+[gemnasium]: https://gemnasium.com/agilecreativity/ebook_renamer
+[codeclimate]: https://codeclimate.com/github/agilecreativity/ebook_renamer
 
 Perform bulk rename of ebook files (epub,mobi,pdf) based on the embedded metadata (title, author(s)).
-This version depends on the opensource software called [Calibre][] which provide the tools
-called [Calibre CLI][] which is very easy to install on OSX or Linux system.
+This version depends on the opensource software called [Calibre][] that comes
+with [Calibre CLI][] which is very easy to install on OSX or Linux system.
 
 ### How the file is renamed
 
@@ -25,8 +30,8 @@ if the `--sep-string _` is used then the output will be
 
 ### What you will need
 
-* You will need to install the [Calibre](http://www.calibre-ebook.com/) and
-  [Calibre CLI](http://manual.calibre-ebook.com/cli/cli-index.html) on your OS.
+* You will need to install the [Calibre][] and
+  [Calibre CLI][] on your OS.
 
   In particular the gem is looking for the `ebook-meta` binary in a path.
   If this is not installed the error will be raised.
@@ -36,8 +41,10 @@ if the `--sep-string _` is used then the output will be
 ### Installation and Usage:
 
 ```sh
-bundle
 gem install ebook_renamer
+
+# Show the list of options
+ebook_renamer
 ```
 
 ### Quick Usage
@@ -60,6 +67,15 @@ ebook_renamer rename
 Which should produce something like
 
 ```
+Changes will not be applied without the --commit option.
+1 of 1::[./Build_a_Ruby_Gem_by_Brandon_Hilkert.pdf] -> [./Build.a.Ruby.Gem.by.Brandon.Hilkert.pdf]
+2 of 2::[./Learn_Vimscript_the_Hard_Way_by_Steve_Losh.mobi] -> [./Learn.Vimscript.the.Hard.Way.by.Steve.Losh.mobi]
+3 of 3::[./Learn_Vimscript_the_Hard_Way_by_Steve_Losh.pdf] -> [./Learn.Vimscript.the.Hard.Way.by.Steve.Losh.pdf]
+4 of 4::[./incoming/pdfmark_Reference_Manual_by_Adobe_Developer_Support.pdf] -> [./incoming/pdfmark.Reference.Manual.by.Adobe.Developer.Support.pdf]
+5 of 5::[./playbook_by_thoughtbot.mobi] -> [./playbook.by.thoughtbot.mobi]
+6 of 6::[./playbook_by_thoughtbot.pdf] -> [./playbook.by.thoughtbot.pdf]
+7 of 7::[./rails/Everyday_Rails_Testing_with_RSpec_by_Aaron_Sumner.mobi] -> [./rails/Everyday.Rails.Testing.with.RSpec.by.Aaron.Sumner.mobi]
+8 of 8::[./rails/Everyday_Rails_Testing_with_RSpec_by_Aaron_Sumner.pdf] -> [./rails/Everyday.Rails.Testing.with.RSpec.by.Aaron.Sumner.pdf]
 ```
 ### Detail Usage
 
@@ -68,21 +84,22 @@ you want to rename.
 
 ```sh
 # Cd to the directory containing the file(s) you like to rename
-$cd ~/Dropbox/ebooks/
+cd ~/Dropbox/ebooks/
 
-# Or specify the directory as an option from any where you have access to the gem
-$ebook_renamer rename --base-dir ~/Dropbox/ebooks/samples
+# Or specify the directory as an option from any where if you set appropriate
+# version of ruby (e.g. rbenv local 2.1.1 or rvm use 2.1.1)
+ebook_renamer rename --base-dir ~/Dropbox/ebooks/samples
 
 # For help on how to use the gem just type without any options.
-$ebook_renamer
+ebook_renamer
 
 # Run the command without making any changes to the files (dry-run) in the current directory
-$ebook_renamer rename --base-dir . --recursive
+ebook_renamer rename --base-dir . --recursive
 
 # Once you are happy with the result then
-$ebook_renamer rename --base-dir . --recursive --commit
+ebook_renamer rename --base-dir . --recursive --commit
 
-or the short version
+# Or using the short version
 
 $ebook_renamer rename -b . -r -c
 ```
@@ -112,21 +129,21 @@ You should see the result like the following
 
 ```
 Changes will not be applied without the --commit option.
-[test/fixtures/ebooks/demo1.pdf] -> [test/fixtures/ebooks/Fearless.Refactoring.by.Andrzej.Krzywda.pdf]
-[test/fixtures/ebooks/demo2.epub] -> [test/fixtures/ebooks/EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub]
-[test/fixtures/ebooks/subdir/demo1.pdf] -> [test/fixtures/ebooks/subdir/Reliably.Deploying.Rails.Applications.by.Ben.Dixon.pdf]
-[test/fixtures/ebooks/subdir/demo2.epub] -> [test/fixtures/ebooks/subdir/EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub]
+1 of 4::[./demo1.pdf] -> [./Fearless.Refactoring.by.Andrzej.Krzywda.pdf]
+2 of 4::[./demo2.epub] -> [./EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub]
+3 of 4::[./subdir/demo1.pdf] -> [./subdir/Reliably.Deploying.Rails.Applications.by.Ben.Dixon.pdf]
+4 of 4::[./subdir/demo2.epub] -> [./subdir/EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub]
 ```
 
 To actually make the actual rename just pass in the `--commit` option like so:
 
 ```sh
-./bin/ebook_renamer rename --base-dir ./test/fixtures/ebooks --recursive --commit
+ebook_renamer rename --base-dir ./test/fixtures/ebooks --recursive --commit
 ```
 or the short version
 
 ```sh
-./bin/ebook_renamer rename -b ./test/fixtures/ebooks -r -c
+ebook_renamer rename -b ./test/fixtures/ebooks -r -c
 ```
 
 The final output should be something like:
@@ -171,3 +188,6 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
 4. Make sure that you add the tests and ensure that all tests are passed
 5. Push to the branch (`git push origin my-new-feature`)
 6. Create new Pull Request
+
+[Calibre]: http://www.calibre-ebook.com/
+[Calibre CLI]: http://manual.calibre-ebook.com/cli/cli-index.html

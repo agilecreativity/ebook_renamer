@@ -1,5 +1,10 @@
 ### Changelog
 
+#### 0.1.6
+
+- Fix the README.md
+- Update gemspec
+
 #### 0.1.5
 
 - Simplify the interface to only support epub, pdf and mobi format
