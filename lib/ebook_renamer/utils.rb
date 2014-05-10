@@ -2,9 +2,7 @@ require 'open3'
 require 'fileutils'
 require 'shellwords'
 require_relative '../ebook_renamer'
-
 module EbookRenamer
-
   EbookMetaNotInstall = Class.new(StandardError)
 
   # Extract meta data from the input file using the ebook-meta tool
@@ -13,13 +11,13 @@ module EbookRenamer
   # @param [String] binary the executable for use to extract the metadata
   # @return [String] result of the output from running the command
   def meta(filename, binary = 'ebook-meta')
-    raise EbookMetaNotInstall, "Need to install ebook-meta to use this gem" if AgileUtils::Helper.which(binary).nil?
+    fail EbookMetaNotInstall, 'Need to install ebook-meta to use this gem' if AgileUtils::Helper.which(binary).nil?
     command = [
       binary,
       Shellwords.escape(filename)
     ]
 
-    stdout_str, stderr_str, status = Open3.capture3(command.join(" "))
+    stdout_str, stderr_str, status = Open3.capture3(command.join(' '))
     raise "Problem processing #{filename}" unless status.success?
     stdout_str
   end
@@ -57,7 +55,7 @@ module EbookRenamer
   #
   # @return [String] the new file name with special characters replaced or removed.
   def sanitize_filename(filename, sep_char = nil)
-    dot = "."
+    dot = '.'
     # Note exclude the '.' (dot)
     filename.gsub!(/[^0-9A-Za-z\-_ ]/, dot)
     # replace multiple occurrences of a given char with a dot
@@ -77,7 +75,7 @@ module EbookRenamer
   # @param [Hash<Symbol,String>] fields list of fields that will be used to set the name
   def formatted_name(meta_hash = {}, fields = {})
     if hash.nil? || fields.nil?
-      raise ArgumentError.new("Argument must not be nil")
+      fail ArgumentError.new('Argument must not be nil')
     end
 
     # The keys that we get from the 'mdls' or 'exiftool'
@@ -105,7 +103,7 @@ module EbookRenamer
       return result.join(sep_char)
     end
     # Note: if no title we choose to return empty value for result
-    ""
+    ''
   end
 
   # Ensure that the values in hash are sanitized
@@ -115,7 +113,7 @@ module EbookRenamer
   # @see #sanitize_filename
   def sanitize_values(hash = {})
     hash.each do |key, value|
-      hash[key] = sanitize_filename(value, " ")
+      hash[key] = sanitize_filename(value, ' ')
     end
     hash
   end

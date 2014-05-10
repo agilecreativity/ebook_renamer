@@ -4,8 +4,9 @@
 [![Dependency Status](https://gemnasium.com/agilecreativity/ebook_renamer.png)](https://gemnasium.com/agilecreativity/ebook_renamer)
 [![Code Climate](https://codeclimate.com/github/agilecreativity/ebook_renamer.png)](https://codeclimate.com/github/agilecreativity/ebook_renamer)
 
-Perform bulk rename of ebook files (epub,mobi,pdf, and any other extensions supported by Calibre)
-based on the embedded meta-data (title, author(s)).
+Perform bulk rename of ebook files (epub,mobi,pdf) based on the embedded metadata (title, author(s)).
+This version depends on the opensource software called [Calibre][] which provide the tools
+called [Calibre CLI][] which is very easy to install on OSX or Linux system.
 
 ### How the file is renamed
 
@@ -39,7 +40,28 @@ bundle
 gem install ebook_renamer
 ```
 
-### Usage
+### Quick Usage
+
+The shortest command that you can run to rename files is
+
+```sh
+# This will rename any ebook files under the directory `~/Dropbox/ebooks`
+# and any sub-directory for (*.epub, *.pdf, *.mobi) using the default settings
+cd ~/Dropbox/ebooks
+ebook_renamer rename --commit
+```
+
+To see what the result would be like without making any changes to any files
+
+```sh
+cd ~/Dropbox/ebooks
+ebook_renamer rename
+```
+Which should produce something like
+
+```
+```
+### Detail Usage
 
 Run the following command from the directory that contain the file(s) that
 you want to rename.
@@ -57,9 +79,11 @@ $ebook_renamer
 # Run the command without making any changes to the files (dry-run) in the current directory
 $ebook_renamer rename --base-dir . --recursive
 
-# Once you are happy with what result then
+# Once you are happy with the result then
 $ebook_renamer rename --base-dir . --recursive --commit
+
 or the short version
+
 $ebook_renamer rename -b . -r -c
 ```
 
@@ -81,37 +105,28 @@ test/fixtures/
 Run the command without making any changes
 
 ```sh
-ebook_renamer rename --base-dir -e epub pdf ./test/fixtures/ebooks --recursive
+ebook_renamer rename --base-dir ./test/fixtures/ebooks --recursive
 ```
 
 You should see the result like the following
 
 ```
-Your options :{:base_dir=>"test/fixtures/ebooks/",
-               :exts=>["epub", "pdf"],
-               :non_exts=>[],
-               :inc_words=>[],
-               :exc_words=>[],
-               :ignore_case=>true,
-               :recursive=>true,
-               :version=>false,
-               :sep_string=>".",
-               :commit=>false}
 Changes will not be applied without the --commit option.
-
 [test/fixtures/ebooks/demo1.pdf] -> [test/fixtures/ebooks/Fearless.Refactoring.by.Andrzej.Krzywda.pdf]
 [test/fixtures/ebooks/demo2.epub] -> [test/fixtures/ebooks/EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub]
 [test/fixtures/ebooks/subdir/demo1.pdf] -> [test/fixtures/ebooks/subdir/Reliably.Deploying.Rails.Applications.by.Ben.Dixon.pdf]
 [test/fixtures/ebooks/subdir/demo2.epub] -> [test/fixtures/ebooks/subdir/EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub]
-
 ```
 
 To actually make the actual rename just pass in the `--commit` option like so:
 
 ```sh
-./bin/ebook_renamer rename --base-dir ./test/fixtures/ebooks -e epub pdf --recursive --commit
-# or short version
-./bin/ebook_renamer rename -b ./test/fixtures/ebooks -e epub pdf -r -c
+./bin/ebook_renamer rename --base-dir ./test/fixtures/ebooks --recursive --commit
+```
+or the short version
+
+```sh
+./bin/ebook_renamer rename -b ./test/fixtures/ebooks -r -c
 ```
 
 The final output should be something like:
@@ -133,71 +148,20 @@ To get the help just type `ebook_renamer` without any argument
 
 ```
 Usage:
-  ebook_renamer rename [OPTIONS]
+  ebook_renamer rename
 
 Options:
-  -b, [--base-dir=BASE_DIR]                # Base directory
-                                           # Default: . (current directory)
-  -e, [--exts=one two three]               # List of extensions to search for
-  -f, [--non-exts=one two three]           # List of files without extension to search for
-  -n, [--inc-words=one two three]          # List of words to be included in the result if any
-  -x, [--exc-words=one two three]          # List of words to be excluded from the result if any
-  -i, [--ignore-case], [--no-ignore-case]  # Match case insensitively
-                                           # Default: true
-  -r, [--recursive], [--no-recursive]      # Search for files recursively
-                                           # Default: true
-  -v, [--version], [--no-version]          # Display version information
-  -s, [--sep-string=SEP_STRING]            # Separator string between words in filename
-                                           # Default: .
-  -c, [--commit], [--no-commit]            # Make change permanent
+  -b, [--base-dir=BASE_DIR]            # Base directory
+                                       # Default: . (current directory)
+  -r, [--recursive], [--no-recursive]  # Search for files recursively
+                                       # Default: true
+  -s, [--sep-string=SEP_STRING]        # Separator string between words in output filename
+                                       # Default: .
+  -c, [--commit], [--no-commit]        # Make change permanent
+  -v, [--version], [--no-version]      # Display version information
 
-Rename multiple ebook files (pdf,epub,mobi)
+Rename multiple ebook files (pdf,epub,mobi) from a given directory
 ```
-
-### Changelog
-
-#### 0.1.4
-
-- Make use of functions from 'agile_utils' to promote code re-use
-- Make Rakefile pickup the right code for testing
-- Update README.md to include code_climate and gemnasium
-
-#### 0.1.3
-
-- Make sanitize_filename work properly with `--sep-string` option
-- Use symbolize_keys from [agile_utils][] gem
-- Fix the Guardfile and misc cleanup
-
-#### 0.1.2
-
-- Make use of [agile_utils] gem
-- Add TODOs.md
-
-#### 0.1.1
-
-- Make use of the [code_lister][] gem
-
-#### 0.1.0
-
-- Add link to the version badge to link to latest gem.
-- Implicitly set the default value for extension to `pdf,epub,mobi` if
-  not explicitly set by the user at the command line.
-
-#### 0.0.9
-
-- Make sure the gemspec include the proper dependencies.
-
-#### 0.0.8
-
-- Use Thor instead of OptionParser for parsing of options
-
-#### 0.0.2 - 0.0.7
-
-- Improvement of code and fix a few bugs a long the way
-
-#### 0.0.1
-
-- Initial release
 
 ### Contributing
 
@@ -207,6 +171,3 @@ Rename multiple ebook files (pdf,epub,mobi)
 4. Make sure that you add the tests and ensure that all tests are passed
 5. Push to the branch (`git push origin my-new-feature`)
 6. Create new Pull Request
-
-[agile_utils]: https://rubygems.org/gems/agile_utils
-[code_lister]: https://rubygems.org/gems/code_lister
