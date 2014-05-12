@@ -13,6 +13,8 @@ Perform bulk rename of ebook files (epub,mobi,pdf) based on the embedded metadat
 This version depends on the opensource software called [Calibre][] that comes
 with [Calibre CLI][] which is very easy to install on OSX or Linux system.
 
+Note: start from version `0.1.7` this gem will release based on [Semantic Versioning][] version.
+
 ### How the file is renamed
 
 The file will be renamed using the following format `<title>.by.<author(s)>`.`<extension>`
@@ -191,3 +193,4 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
 
 [Calibre]: http://www.calibre-ebook.com/
 [Calibre CLI]: http://manual.calibre-ebook.com/cli/cli-index.html
+[Semantic Versioning]: http://semver.org

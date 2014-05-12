@@ -1,5 +1,10 @@
 ### Changelog
 
+#### 0.1.7
+
+- First [Semantic Versioning][] release version
+- Update development ruby-version to 2.1.2
+
 #### 0.1.6
 
 - Fix the README.md
@@ -64,3 +69,4 @@
 
 [agile_utils]: https://rubygems.org/gems/agile_utils
 [code_lister]: https://rubygems.org/gems/code_lister
+[Semantic Versioning]: http://semver.org
