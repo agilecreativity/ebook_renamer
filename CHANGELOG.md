@@ -1,5 +1,11 @@
 ### Changelog
 
+#### 0.1.8
+
+- Simplify the CLI interface
+- Consistently use double quote for string
+- Update style with rubocop
+
 #### 0.1.7
 
 - First [Semantic Versioning][] release version

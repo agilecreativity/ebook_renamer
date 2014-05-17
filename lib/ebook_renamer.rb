@@ -1,7 +1,7 @@
-require 'thor'
-require 'code_lister'
-require 'agile_utils'
-require_relative 'ebook_renamer/version'
-require_relative 'ebook_renamer/logger'
-require_relative 'ebook_renamer/utils'
-require_relative 'ebook_renamer/cli'
+require "thor"
+require "code_lister"
+require "agile_utils"
+require_relative "ebook_renamer/version"
+require_relative "ebook_renamer/logger"
+require_relative "ebook_renamer/utils"
+require_relative "ebook_renamer/cli"

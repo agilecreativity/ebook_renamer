@@ -1,7 +1,7 @@
-require 'open3'
-require 'fileutils'
-require 'shellwords'
-require_relative '../ebook_renamer'
+require "open3"
+require "fileutils"
+require "shellwords"
+require_relative "../ebook_renamer"
 module EbookRenamer
   EbookMetaNotInstall = Class.new(StandardError)
 
@@ -10,15 +10,15 @@ module EbookRenamer
   # @param [String] filename the input file name
   # @param [String] binary the executable for use to extract the metadata
   # @return [String] result of the output from running the command
-  def meta(filename, binary = 'ebook-meta')
-    fail EbookMetaNotInstall, 'Need to install ebook-meta to use this gem' if AgileUtils::Helper.which(binary).nil?
+  def meta(filename, binary = "ebook-meta")
+    fail EbookMetaNotInstall, "Need to install ebook-meta to use this gem" if AgileUtils::Helper.which(binary).nil?
     command = [
       binary,
       Shellwords.escape(filename)
     ]
 
-    stdout_str, stderr_str, status = Open3.capture3(command.join(' '))
-    raise "Problem processing #{filename}" unless status.success?
+    stdout_str, stderr_str, status = Open3.capture3(command.join(" "))
+    fail "Problem processing #{filename}" unless status.success?
     stdout_str
   end
 
@@ -55,11 +55,11 @@ module EbookRenamer
   #
   # @return [String] the new file name with special characters replaced or removed.
   def sanitize_filename(filename, sep_char = nil)
-    dot = '.'
+    dot = "."
     # Note exclude the '.' (dot)
     filename.gsub!(/[^0-9A-Za-z\-_ ]/, dot)
     # replace multiple occurrences of a given char with a dot
-    ['-', '_', ' '].each do |c|
+    ["-", "_", " "].each do |c|
       filename.gsub!(/#{Regexp.quote(c)}+/, dot)
     end
 
@@ -75,16 +75,16 @@ module EbookRenamer
   # @param [Hash<Symbol,String>] fields list of fields that will be used to set the name
   def formatted_name(meta_hash = {}, fields = {})
     if hash.nil? || fields.nil?
-      fail ArgumentError.new('Argument must not be nil')
+      fail ArgumentError.new("Argument must not be nil")
     end
 
     # The keys that we get from the 'mdls' or 'exiftool'
     args = {
       keys: [
-        'title',
-        'author(s)'
+        "title",
+        "author(s)"
       ],
-      sep_char: ' '
+      sep_char: " "
     }.merge(fields)
 
     keys = args[:keys]
@@ -92,18 +92,18 @@ module EbookRenamer
 
     # Note: only show if we have the value for title
     result = []
-    if meta_hash.fetch('title', nil)
+    if meta_hash.fetch("title", nil)
       keys.each do |k|
         value = meta_hash.fetch(k, nil)
         # Note: don't add 'Author(s)' => 'Unknown' to keep the result clean
-        if value && value.downcase != 'unknown'
+        if value && value.downcase != "unknown"
           result << meta_hash[k]
         end
       end
       return result.join(sep_char)
     end
     # Note: if no title we choose to return empty value for result
-    ''
+    ""
   end
 
   # Ensure that the values in hash are sanitized
@@ -113,7 +113,7 @@ module EbookRenamer
   # @see #sanitize_filename
   def sanitize_values(hash = {})
     hash.each do |key, value|
-      hash[key] = sanitize_filename(value, ' ')
+      hash[key] = sanitize_filename(value, " ")
     end
     hash
   end
@@ -129,11 +129,11 @@ module EbookRenamer
   def files(base_dir = Dir.pwd, options = {})
     args = {
       recursive: false,
-      exts: %w(epub mobi pdf)
+      exts: %w[epub mobi pdf]
     }.merge(options)
 
-    wildcard = args[:recursive] ? '**' : ''
-    patterns = File.join(base_dir, wildcard, "*.{#{(args[:exts]).join(',')}}")
+    wildcard = args[:recursive] ? "**" : ""
+    patterns = File.join(base_dir, wildcard, "*.{#{(args[:exts]).join(",")}}")
     Dir.glob(patterns) || []
   end
 end

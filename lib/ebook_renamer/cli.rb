@@ -1,26 +1,26 @@
-require 'agile_utils'
-require 'code_lister'
-require 'fileutils'
-require_relative '../ebook_renamer'
+require "agile_utils"
+require "code_lister"
+require "fileutils"
+require_relative "../ebook_renamer"
 module EbookRenamer
   class CLI < Thor
-    desc 'rename', 'Rename multiple ebook files (pdf,epub,mobi) from a given directory'
+    desc "rename", "Rename multiple ebook files (pdf,epub,mobi) from a given directory"
     method_option *AgileUtils::Options::BASE_DIR
     method_option *AgileUtils::Options::RECURSIVE
     method_option :sep_string,
-                  aliases: '-s',
-                  desc: 'Separator string between words in output filename',
-                  default: '.'
+                  aliases: "-s",
+                  desc: "Separator string between words in output filename",
+                  default: "."
     method_option :commit,
-                  aliases: '-c',
-                  desc: 'Make change permanent',
+                  aliases: "-c",
+                  desc: "Make change permanent",
                   type: :boolean,
                   default: false
     method_option *AgileUtils::Options::VERSION
     def rename
       opts = options.symbolize_keys
       # Explicitly add the :exts options
-      opts[:exts] = %w(pdf epub mobi)
+      opts[:exts] = %w[pdf epub mobi]
       if opts[:version]
         puts "You are using EbookRenamer version #{EbookRenamer::VERSION}"
         exit
@@ -28,11 +28,11 @@ module EbookRenamer
       execute(opts)
     end
 
-    desc 'usage', 'Display help screen'
+    desc "usage", "Display help screen"
     def usage
       puts <<-EOS
 Usage:
-  ebook_renamer rename
+  ebook_renamer
 
 Options:
   -b, [--base-dir=BASE_DIR]            # Base directory
@@ -50,7 +50,7 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
 
     default_task :usage
 
-    private
+  private
 
     # Rename the file from the given directory
     # Using the with the argurment options as follow
@@ -62,7 +62,7 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
     #
     # @param args [Hash<Symbol, Object>] options argument
     def execute(options = {})
-      meta_binary = 'ebook-meta'
+      meta_binary = "ebook-meta"
 
       input_files = CodeLister.files(options)
 
@@ -72,7 +72,9 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
       end
 
       unless options[:commit]
-        puts 'Changes will not be applied without the --commit option.'
+        puts "-----------------------------------------------------------"
+        puts " FYI: no changes as this is a dry-run, please use --commit "
+        puts "-----------------------------------------------------------"
       end
 
       FileUtils.chdir(options[:base_dir])
@@ -80,9 +82,10 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
         extension = File.extname(file)
         begin
           hash = meta_to_hash(meta(file, meta_binary))
-          full_name = formatted_name(hash, sep_char: ' by ')
+          full_name = formatted_name(hash, sep_char: " by ")
           new_name  = "#{File.dirname(file)}/#{sanitize_filename(full_name, options[:sep_string])}#{extension}"
-          puts "#{index + 1} of #{input_files.size}::[#{file}] -> [#{new_name}]"
+          puts "#{index + 1} of #{input_files.size} old name : #{file}"
+          puts "#{index + 1} of #{input_files.size} new name : #{new_name}"
           FileUtils.mv(file, new_name) if options[:commit] && file != new_name
         rescue RuntimeError => e
           puts e.backtrace

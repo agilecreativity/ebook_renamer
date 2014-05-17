@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
                                                        Rakefile
                                                        ebook_renamer.gemspec
                                                        README.md
-                                                       CHANGELOGS.md
+                                                       CHANGELOG.md
                                                        LICENSE
                                                        .rubocop.yml
                                                        .gitignore)

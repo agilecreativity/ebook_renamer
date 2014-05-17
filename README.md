@@ -57,28 +57,55 @@ The shortest command that you can run to rename files is
 # This will rename any ebook files under the directory `~/Dropbox/ebooks`
 # and any sub-directory for (*.epub, *.pdf, *.mobi) using the default settings
 cd ~/Dropbox/ebooks
-ebook_renamer rename --commit
+ebook_renamer --commit
 ```
 
-To see what the result would be like without making any changes to any files
+To see what the result would be like without making any changes
 
 ```sh
-cd ~/Dropbox/ebooks
-ebook_renamer rename
+cd ~/Dropbox/ebooks/
+ebook_renamer --base-dir .
 ```
-Which should produce something like
+
+Should see the result like
 
 ```
-Changes will not be applied without the --commit option.
-1 of 1::[./Build_a_Ruby_Gem_by_Brandon_Hilkert.pdf] -> [./Build.a.Ruby.Gem.by.Brandon.Hilkert.pdf]
-2 of 2::[./Learn_Vimscript_the_Hard_Way_by_Steve_Losh.mobi] -> [./Learn.Vimscript.the.Hard.Way.by.Steve.Losh.mobi]
-3 of 3::[./Learn_Vimscript_the_Hard_Way_by_Steve_Losh.pdf] -> [./Learn.Vimscript.the.Hard.Way.by.Steve.Losh.pdf]
-4 of 4::[./incoming/pdfmark_Reference_Manual_by_Adobe_Developer_Support.pdf] -> [./incoming/pdfmark.Reference.Manual.by.Adobe.Developer.Support.pdf]
-5 of 5::[./playbook_by_thoughtbot.mobi] -> [./playbook.by.thoughtbot.mobi]
-6 of 6::[./playbook_by_thoughtbot.pdf] -> [./playbook.by.thoughtbot.pdf]
-7 of 7::[./rails/Everyday_Rails_Testing_with_RSpec_by_Aaron_Sumner.mobi] -> [./rails/Everyday.Rails.Testing.with.RSpec.by.Aaron.Sumner.mobi]
-8 of 8::[./rails/Everyday_Rails_Testing_with_RSpec_by_Aaron_Sumner.pdf] -> [./rails/Everyday.Rails.Testing.with.RSpec.by.Aaron.Sumner.pdf]
+-----------------------------------------------------------
+ FYI: no changes as this is a dry-run, please use --commit
+-----------------------------------------------------------
+1 of 4 old name : ./demo1.pdf
+1 of 4 new name : ./Fearless.Refactoring.by.Andrzej.Krzywda.pdf
+2 of 4 old name : ./demo2.epub
+2 of 4 new name : ./EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub
+3 of 4 old name : ./subdir/demo3.pdf
+3 of 4 new name : ./subdir/Reliably.Deploying.Rails.Applications.by.Ben.Dixon.pdf
+4 of 4 old name : ./subdir/demo4.epub
+4 of 4 new name : ./subdir/EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub
 ```
+
+with `--sep-string` option
+
+```sh
+cd ~/Dropbox/ebooks/
+ebook_renamer --base-dir . --sep-string _
+```
+
+Should see the result like
+
+```
+-----------------------------------------------------------
+ FYI: no changes as this is a dry-run, please use --commit
+-----------------------------------------------------------
+1 of 4 old name : ./demo1.pdf
+1 of 4 new name : ./Fearless_Refactoring_by_Andrzej_Krzywda.pdf
+2 of 4 old name : ./demo2.epub
+2 of 4 new name : ./EPUB_3_0_Specification_by_EPUB_3_Working_Group.epub
+3 of 4 old name : ./subdir/demo3.pdf
+3 of 4 new name : ./subdir/Reliably_Deploying_Rails_Applications_by_Ben_Dixon.pdf
+4 of 4 old name : ./subdir/demo4.epub
+4 of 4 new name : ./subdir/EPUB_3_0_Specification_by_EPUB_3_Working_Group.epub
+```
+
 ### Detail Usage
 
 Run the following command from the directory that contain the file(s) that
@@ -90,84 +117,26 @@ cd ~/Dropbox/ebooks/
 
 # Or specify the directory as an option from any where if you set appropriate
 # version of ruby (e.g. rbenv local 2.1.1 or rvm use 2.1.1)
-ebook_renamer rename --base-dir ~/Dropbox/ebooks/samples
+ebook_renamer --base-dir ~/Dropbox/ebooks/samples
 
 # For help on how to use the gem just type without any options.
 ebook_renamer
 
 # Run the command without making any changes to the files (dry-run) in the current directory
-ebook_renamer rename --base-dir . --recursive
+ebook_renamer --base-dir . --recursive
 
 # Once you are happy with the result then
-ebook_renamer rename --base-dir . --recursive --commit
+ebook_renamer --base-dir . --recursive --commit
 
 # Or using the short version
-
-$ebook_renamer rename -b . -r -c
+ebook_renamer -b . -r -c
 ```
 
-### Example Outputs
-
-Original files before
-
-```
-test/fixtures/
-└── ebooks
-    ├── demo1.pdf
-    ├── demo2.epub
-    └── subdir
-        ├── demo1.pdf
-        └── demo2.epub
-2 directories, 4 files
-```
-
-Run the command without making any changes
-
-```sh
-ebook_renamer rename --base-dir ./test/fixtures/ebooks --recursive
-```
-
-You should see the result like the following
-
-```
-Changes will not be applied without the --commit option.
-1 of 4::[./demo1.pdf] -> [./Fearless.Refactoring.by.Andrzej.Krzywda.pdf]
-2 of 4::[./demo2.epub] -> [./EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub]
-3 of 4::[./subdir/demo1.pdf] -> [./subdir/Reliably.Deploying.Rails.Applications.by.Ben.Dixon.pdf]
-4 of 4::[./subdir/demo2.epub] -> [./subdir/EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub]
-```
-
-To actually make the actual rename just pass in the `--commit` option like so:
-
-```sh
-ebook_renamer rename --base-dir ./test/fixtures/ebooks --recursive --commit
-```
-or the short version
-
-```sh
-ebook_renamer rename -b ./test/fixtures/ebooks -r -c
-```
-
-The final output should be something like:
-
-```
-test/fixtures/
-└── ebooks
-    ├── Fearless.Refactoring.by.Andrzej.Krzywda.pdf
-    ├── EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub
-    └── subdir
-        ├── Fearless.Refactoring.by.Andrzej.Krzywda.pdf
-        └── EPUB.3.0.Specification.by.EPUB.3.Working.Group.epub
-2 directories, 4 files
-```
-
-### Sample Usage
-
-To get the help just type `ebook_renamer` without any argument
+### Usage/Synopsis
 
 ```
 Usage:
-  ebook_renamer rename
+  ebook_renamer
 
 Options:
   -b, [--base-dir=BASE_DIR]            # Base directory
