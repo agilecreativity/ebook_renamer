@@ -62,10 +62,8 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
     #
     # @param args [Hash<Symbol, Object>] options argument
     def execute(options = {})
-      meta_binary = "ebook-meta"
-
+      # meta_binary = "ebook-meta"
       input_files = CodeLister.files(options)
-
       if input_files.empty?
         puts "No file found for your option: #{options}"
         return
@@ -81,12 +79,28 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
       input_files.each_with_index do |file, index|
         extension = File.extname(file)
         begin
-          hash = meta_to_hash(meta(file, meta_binary))
+          meta_binary = "ebook-meta"
+          metadata = meta(file, meta_binary)
+          hash = meta_to_hash(metadata)
+
+          # Skip the process, if we don't have the title
+          if hash["title"] == File.basename(file, ".*")
+            puts "#{index + 1} of #{input_files.size} skip name: #{File.expand_path(file)} [no title found]"
+            next
+          end
+
+          old_name  = File.expand_path(file)
           full_name = formatted_name(hash, sep_char: " by ")
           new_name  = "#{File.dirname(file)}/#{sanitize_filename(full_name, options[:sep_string])}#{extension}"
-          puts "#{index + 1} of #{input_files.size} old name : #{file}"
-          puts "#{index + 1} of #{input_files.size} new name : #{new_name}"
-          FileUtils.mv(file, new_name) if options[:commit] && file != new_name
+          new_name  = File.expand_path(new_name)
+
+          if old_name != new_name
+            puts "#{index + 1} of #{input_files.size} old name : #{old_name}"
+            puts "#{index + 1} of #{input_files.size} new name : #{new_name}"
+            FileUtils.mv(old_name, new_name) if options[:commit]
+          else
+            puts "#{index + 1} of #{input_files.size} skip name: #{old_name}"
+          end
         rescue RuntimeError => e
           puts e.backtrace
           next

@@ -1,5 +1,9 @@
 ### Changelog
 
+#### 0.1.9
+
+- Skip the rename if the the title is the same as the input file name.
+
 #### 0.1.8
 
 - Simplify the CLI interface
