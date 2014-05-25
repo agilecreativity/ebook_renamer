@@ -1,5 +1,9 @@
 ### Changelog
 
+#### 0.1.10
+
+- Code refactoring
+
 #### 0.1.9
 
 - Skip the rename if the the title is the same as the input file name.

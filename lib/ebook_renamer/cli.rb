@@ -53,22 +53,19 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
   private
 
     # Rename the file from the given directory
-    # Using the with the argurment options as follow
-    #
-    #   :base_dir  - the base directory
-    #   :recursive - perform the rename recursively (true|false)
-    #   :commit    - make the rename permanent (true|false)
-    #   :exts      - list of extensions to be processed default to ['epub,mobi,pdf']
     #
     # @param args [Hash<Symbol, Object>] options argument
+    # possible options
+    #  :base_dir  - the base directory
+    #  :recursive - perform the rename recursively (true|false)
+    #  :commit    - make the rename permanent (true|false)
+    #  :exts      - list of extensions to be processed default to ['epub,mobi,pdf']
     def execute(options = {})
-      # meta_binary = "ebook-meta"
       input_files = CodeLister.files(options)
       if input_files.empty?
         puts "No file found for your option: #{options}"
         return
       end
-
       unless options[:commit]
         puts "-----------------------------------------------------------"
         puts " FYI: no changes as this is a dry-run, please use --commit "
@@ -77,35 +74,48 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
 
       FileUtils.chdir(options[:base_dir])
       input_files.each_with_index do |file, index|
-        extension = File.extname(file)
+        input_file = File.expand_path(file)
         begin
-          meta_binary = "ebook-meta"
-          metadata = meta(file, meta_binary)
-          hash = meta_to_hash(metadata)
-
-          # Skip the process, if we don't have the title
-          if hash["title"] == File.basename(file, ".*")
-            puts "#{index + 1} of #{input_files.size} skip name: #{File.expand_path(file)} [no title found]"
-            next
-          end
-
-          old_name  = File.expand_path(file)
-          full_name = formatted_name(hash, sep_char: " by ")
-          new_name  = "#{File.dirname(file)}/#{sanitize_filename(full_name, options[:sep_string])}#{extension}"
-          new_name  = File.expand_path(new_name)
-
-          if old_name != new_name
-            puts "#{index + 1} of #{input_files.size} old name : #{old_name}"
-            puts "#{index + 1} of #{input_files.size} new name : #{new_name}"
-            FileUtils.mv(old_name, new_name) if options[:commit]
-          else
-            puts "#{index + 1} of #{input_files.size} skip name: #{old_name}"
-          end
+          metadata  = meta(input_file, "ebook-meta")
+          meta_hash = meta_to_hash(metadata)
+          compare_and_rename(input_file, meta_hash, options, index, input_files.size)
         rescue RuntimeError => e
           puts e.backtrace
           next
         end
       end
+    end
+
+    def compare_and_rename(input_file, meta_hash, options, index, total)
+      if identical_name?(input_file, meta_hash)
+        puts "#{index + 1} of #{total} skip name: #{input_file} [no title found or file is identical]"
+        return
+      end
+      output_file = compute_name(input_file, meta_hash, options)
+      if input_file != output_file
+        puts "#{index + 1} of #{total} old name : #{input_file}"
+        puts "#{index + 1} of #{total} new name : #{output_file}"
+        FileUtils.mv(input_file, output_file) if options[:commit]
+      else
+        puts "#{index + 1} of #{total} skip name: #{input_file} [file is identical]"
+      end
+    end
+
+    # Check and return if we have the title or
+    # if the title is the same as the input name
+    def identical_name?(input_file, meta_hash = {})
+      meta_hash["title"] == File.basename(input_file, ".*")
+    end
+
+    # Compute the new name from metadata
+    #
+    # @todo make use of filename cleaner gem
+    def compute_name(input_file, meta_hash, options)
+      extension = File.extname(input_file)
+      name = formatted_name(meta_hash, sep_char: " by ")
+      name = sanitize_filename(name, options[:sep_string])
+      name = "#{File.dirname(input_file)}/#{name}#{extension}"
+      File.expand_path(name)
     end
   end
 end
