@@ -132,6 +132,18 @@ ebook_renamer --base-dir . --recursive --commit
 ebook_renamer -b . -r -c
 ```
 
+### Misc Options
+In addition to the above usage, you can also use the two new flags `--downcase` or
+`--capitalize`
+
+```shell
+# Lowercase each word in the result filename
+ebook_renamer --base-dir . --recursive --downcase --commit
+
+# Capitalize each word in the result filename
+ebook_renamer --base-dir . --recursive --capitalize --commit
+```
+
 ### Usage/Synopsis
 
 ```
@@ -139,16 +151,22 @@ Usage:
   ebook_renamer
 
 Options:
-  -b, [--base-dir=BASE_DIR]            # Base directory
-                                       # Default: . (current directory)
-  -r, [--recursive], [--no-recursive]  # Search for files recursively
-                                       # Default: true
-  -s, [--sep-string=SEP_STRING]        # Separator string between words in output filename
-                                       # Default: .
-  -c, [--commit], [--no-commit]        # Make change permanent
-  -v, [--version], [--no-version]      # Display version information
+  -b, [--base-dir=BASE_DIR]              # Base directory
+                                         # Default: . (current directory)
+  -r, [--recursive], [--no-recursive]    # Search for files recursively
+                                         # Default: --recursive
+  -s, [--sep-string=SEP_STRING]          # Separator string between words in output filename
+                                         # Default: . (dot string)
+  -d, [--downcase], [--no-downcase]      # Convert each word in the filename to lowercase
+                                         # Default: --no-downcase
+  -t, [--capitalize], [--no-capitalize]  # Capitalize each word in the filename
+                                         # Default: --no-capitalize
+  -c, [--commit], [--no-commit]          # Make change permanent
+                                         # Default: --no-commit
+  -v, [--version], [--no-version]        # Display version information
 
 Rename multiple ebook files (pdf,epub,mobi) from a given directory
+
 ```
 
 ### Contributing

@@ -1,5 +1,6 @@
 require "agile_utils"
 require "code_lister"
+require "filename_cleaner"
 require "fileutils"
 require_relative "../ebook_renamer"
 module EbookRenamer
@@ -9,11 +10,21 @@ module EbookRenamer
     method_option *AgileUtils::Options::RECURSIVE
     method_option :sep_string,
                   aliases: "-s",
-                  desc: "Separator string between words in output filename",
+                  desc: "Separator string between each word in output filename",
                   default: "."
+    method_option :downcase,
+                  aliases: "-d",
+                  type: :boolean,
+                  desc: "Convert each word in the output filename to lowercase",
+                  default: false
+    method_option :capitalize,
+                  type: :boolean,
+                  aliases: "-t",
+                  desc: "Capitalize each word in the output filename",
+                  default: false
     method_option :commit,
                   aliases: "-c",
-                  desc: "Make change permanent",
+                  desc: "Make your changes permanent",
                   type: :boolean,
                   default: false
     method_option *AgileUtils::Options::VERSION
@@ -31,20 +42,27 @@ module EbookRenamer
     desc "usage", "Display help screen"
     def usage
       puts <<-EOS
+
 Usage:
   ebook_renamer
 
 Options:
-  -b, [--base-dir=BASE_DIR]            # Base directory
-                                       # Default: . (current directory)
-  -r, [--recursive], [--no-recursive]  # Search for files recursively
-                                       # Default: true
-  -s, [--sep-string=SEP_STRING]        # Separator string between words in output filename
-                                       # Default: .
-  -c, [--commit], [--no-commit]        # Make change permanent
-  -v, [--version], [--no-version]      # Display version information
+  -b, [--base-dir=BASE_DIR]              # Base directory
+                                         # Default: . (current directory)
+  -r, [--recursive], [--no-recursive]    # Search for files recursively
+                                         # Default: --recursive
+  -s, [--sep-string=SEP_STRING]          # Separator string between each word in output filename
+                                         # Default: '.' (dot string)
+  -d, [--downcase], [--no-downcase]      # Convert each word in the output filename to lowercase
+                                         # Default: --no-downcase
+  -t, [--capitalize], [--no-capitalize]  # Capitalize each word in the output filename
+                                         # Default: --no-capitalize
+  -c, [--commit], [--no-commit]          # Make your changes permanent
+                                         # Default: --no-commit
+  -v, [--version], [--no-version]        # Display version information
 
 Rename multiple ebook files (pdf,epub,mobi) from a given directory
+
       EOS
     end
 
@@ -53,13 +71,6 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
   private
 
     # Rename the file from the given directory
-    #
-    # @param args [Hash<Symbol, Object>] options argument
-    # possible options
-    #  :base_dir  - the base directory
-    #  :recursive - perform the rename recursively (true|false)
-    #  :commit    - make the rename permanent (true|false)
-    #  :exts      - list of extensions to be processed default to ['epub,mobi,pdf']
     def execute(options = {})
       input_files = CodeLister.files(options)
       if input_files.empty?
@@ -88,16 +99,28 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
 
     def compare_and_rename(input_file, meta_hash, options, index, total)
       if identical_name?(input_file, meta_hash)
-        puts "#{index + 1} of #{total} skip name: #{input_file} [no title found or file is identical]"
-        return
+        base_name = File.basename(input_file, ".*")
+        name = downcase_or_capitalize(base_name, options)
+        name = "#{File.dirname(input_file)}/#{name}#{File.extname(input_file)}"
+        output_file = File.expand_path(name)
+      else
+        output_file = compute_name(input_file, meta_hash, options)
       end
-      output_file = compute_name(input_file, meta_hash, options)
+      rename_if_not_the_same(input_file, output_file, index:  index,
+                                                      total:  total,
+                                                      commit: options[:commit])
+    end
+
+    def rename_if_not_the_same(input_file, output_file, options = {})
+      index  = options[:index]
+      total  = options[:total]
+      commit = options[:commit]
       if input_file != output_file
         puts "#{index + 1} of #{total} old name : #{input_file}"
         puts "#{index + 1} of #{total} new name : #{output_file}"
-        FileUtils.mv(input_file, output_file) if options[:commit]
+        FileUtils.mv(input_file, output_file) if commit
       else
-        puts "#{index + 1} of #{total} skip name: #{input_file} [file is identical]"
+        puts "#{index + 1} of #{total} skip name: #{input_file} [title is the same as the filename]"
       end
     end
 
@@ -109,13 +132,28 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
 
     # Compute the new name from metadata
     #
-    # @todo make use of filename cleaner gem
     def compute_name(input_file, meta_hash, options)
       extension = File.extname(input_file)
       name = formatted_name(meta_hash, sep_char: " by ")
-      name = sanitize_filename(name, options[:sep_string])
+      name = FilenameCleaner.sanitize(name, options[:sep_string], false)
+      name = downcase_or_capitalize(name, options)
       name = "#{File.dirname(input_file)}/#{name}#{extension}"
       File.expand_path(name)
+    end
+
+    # Post processing of the name
+    def downcase_or_capitalize(name, options)
+      downcase   = options[:downcase]
+      capitalize = options[:capitalize]
+      sep_string = options[:sep_string]
+      if capitalize
+        name = name.split(sep_string).map(&:capitalize).join(sep_string)
+      else
+        if downcase
+          name = name.split(sep_string).map(&:downcase).join(sep_string)
+        end
+      end
+      name
     end
   end
 end

@@ -1,5 +1,14 @@
 ### Changelog
 
+#### 0.1.11
+
+- Make use of [filename_cleaner][] gem for renaming filename
+- Add new options
+  * `--downcase` to allow downcase of each word in the filename
+  * `--capitalize` to allow capitalization of each word in the filename
+- Fix the style with rubocop
+- Improve README.md
+
 #### 0.1.10
 
 - Code refactoring
@@ -82,5 +91,6 @@
 - Initial release
 
 [agile_utils]: https://rubygems.org/gems/agile_utils
+[filename_cleaner]: https://rubygems.org/gems/filename_cleaner
 [code_lister]: https://rubygems.org/gems/code_lister
 [Semantic Versioning]: http://semver.org

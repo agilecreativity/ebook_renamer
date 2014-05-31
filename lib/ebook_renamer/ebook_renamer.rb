@@ -48,27 +48,6 @@ module EbookRenamer
     hash
   end
 
-  # Clean the filename to remove the special characters
-  #
-  # @param [String] filename input file
-  # @param [String] sep_char separator character to use
-  #
-  # @return [String] the new file name with special characters replaced or removed.
-  def sanitize_filename(filename, sep_char = nil)
-    dot = "."
-    # Note exclude the '.' (dot)
-    filename.gsub!(/[^0-9A-Za-z\-_ ]/, dot)
-    # replace multiple occurrences of a given char with a dot
-    ["-", "_", " "].each do |c|
-      filename.gsub!(/#{Regexp.quote(c)}+/, dot)
-    end
-
-    # replace multiple occurrence of dot with one dot
-    filename.gsub!(/#{Regexp.quote(dot)}+/, dot)
-    return filename.gsub!(/#{Regexp.quote(dot)}+/, sep_char) if sep_char
-    filename.strip
-  end
-
   # Return formatted file name using the metadata values
   #
   # @param [Hash<Symbol,String>] meta_hash output from the program 'ebook-meta' or 'exiftoo'
@@ -77,6 +56,8 @@ module EbookRenamer
     if hash.nil? || fields.nil?
       fail ArgumentError.new("Argument must not be nil")
     end
+    # Let's not continue if we have no title metadata
+    fail "No title found" unless meta_hash.fetch("title", nil)
 
     # The keys that we get from the 'mdls' or 'exiftool'
     args = {
@@ -92,48 +73,13 @@ module EbookRenamer
 
     # Note: only show if we have the value for title
     result = []
-    if meta_hash.fetch("title", nil)
-      keys.each do |k|
-        value = meta_hash.fetch(k, nil)
-        # Note: don't add 'Author(s)' => 'Unknown' to keep the result clean
-        if value && value.downcase != "unknown"
-          result << meta_hash[k]
-        end
+    keys.each do |key|
+      value = meta_hash.fetch(key, nil)
+      # Note: don't add 'Author(s)' => 'Unknown' to keep the result clean
+      if value && value.downcase != "unknown"
+        result << meta_hash[key]
       end
-      return result.join(sep_char)
     end
-    # Note: if no title we choose to return empty value for result
-    ""
-  end
-
-  # Ensure that the values in hash are sanitized
-  #
-  # @param [Hash<Symbol,String>] hash input hash to be sanitized
-  # @return [Hash<Symbol,String>] original hash with values sanitized
-  # @see #sanitize_filename
-  def sanitize_values(hash = {})
-    hash.each do |key, value|
-      hash[key] = sanitize_filename(value, " ")
-    end
-    hash
-  end
-
-  # List files base on given options
-  # options:
-  #  :recursive - process the directory recursively (default false)
-  #  :exts - list of extensions to be search (default ['epub','mobi','pdf'])
-  #
-  # @param base_dir [String] the starting directory
-  # @param options [Hash<Symbol,Object>] the options to be used
-  # @return [List<String>] list of matching files or empty list if none are found
-  def files(base_dir = Dir.pwd, options = {})
-    args = {
-      recursive: false,
-      exts: %w[epub mobi pdf]
-    }.merge(options)
-
-    wildcard = args[:recursive] ? "**" : ""
-    patterns = File.join(base_dir, wildcard, "*.{#{(args[:exts]).join(",")}}")
-    Dir.glob(patterns) || []
+    result.join(sep_char)
   end
 end
