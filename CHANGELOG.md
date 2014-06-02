@@ -1,5 +1,9 @@
 ### Changelog
 
+#### 0.1.12
+
+- Skip the file if the result filename exist locally.
+
 #### 0.1.11
 
 - Make use of [filename_cleaner][] gem for renaming filename

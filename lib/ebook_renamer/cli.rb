@@ -118,7 +118,13 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
       if input_file != output_file
         puts "#{index + 1} of #{total} old name : #{input_file}"
         puts "#{index + 1} of #{total} new name : #{output_file}"
-        FileUtils.mv(input_file, output_file) if commit
+        if commit
+          if File.exist?(output_file)
+            puts "#{index + 1} of #{total} skip     : #{output_file} [File exist locally]"
+          else
+            FileUtils.mv(input_file, output_file)
+          end
+        end
       else
         puts "#{index + 1} of #{total} skip name: #{input_file} [title is the same as the filename]"
       end
