@@ -9,36 +9,44 @@ ebook_renamer
 [gemnasium]: https://gemnasium.com/agilecreativity/ebook_renamer
 [codeclimate]: https://codeclimate.com/github/agilecreativity/ebook_renamer
 
-Perform bulk rename of ebook files (epub,mobi,pdf) based on the embedded metadata (title, author(s)).
+Bulk rename of ebook files (epub,mobi,pdf) using embedded meta-data (title, author(s)).
 This version depends on the opensource software called [Calibre][] that comes
 with [Calibre CLI][] which is very easy to install on OSX or Linux system.
 
-Note: start from version `0.1.7` this gem will release based on [Semantic Versioning][] version.
+Release based on [Semantic Versioning][] version.
 
 ### How the file is renamed
 
 The file will be renamed using the following format `<title>.by.<author(s)>`.`<extension>`
 
 Also the final file name will be sanitized e.g. any multiple occurence of special characters will be
-replace by one dot `.`.
+replace by given separator char (default to dot) .
 
 For example if the ebook contain the title `Start with Why: How Grate Leader Inspire Everyone to Take Action`
 and the author is `Simon Sinek` then the default output will be
 `Start.with.Why.How.Great.Leader.Inspire.Everyone.to.Take.Action.by.Simon.Sinek.pdf`
-Note that the `:` and one space before the word `How` is replaced with just one dot string.
+Note that the `:` and one space before the word `How` is replaced by one dot string.
 
-if the `--sep-string _` is used then the output will be
+If the `--sep-string _` is used then the above output will be
 `Start_with_Why_How_Great_Leader_Inspire_Everyone_to_Take_Action_by_Simon_Sinek.pdf`.
 
 ### What you will need
 
-* You will need to install the [Calibre][] and
-  [Calibre CLI][] on your OS.
+- You will need to install [Calibre][] and
+  [Calibre CLI][] on your OS. Please download Calibre binary from [http://calibre-ebook.com/download](http://calibre-ebook.com/download)
 
-  In particular the gem is looking for the `ebook-meta` binary in a path.
-  If this is not installed the error will be raised.
+Alternatively if Ubuntu Linux:
 
-* Linux or Mac OSX operating system
+```shell
+sudo apt-get install calibre calibre-bin
+# check your installation
+which ebook-meta #=> /usr/bin/ebook-meta
+```
+
+In particular the gem is looking for the `ebook-meta` binary in a path.
+If this is not installed the error will be raised.
+
+- Tested on Ruby 1.9.3 and newer
 
 ### Installation and Usage:
 
@@ -47,6 +55,30 @@ gem install ebook_renamer
 
 # Show the list of options
 ebook_renamer
+```
+
+### Usage/Synopsis
+
+```
+Usage:
+  ebook_renamer
+
+Options:
+  -b, [--base-dir=BASE_DIR]              # Base directory
+                                         # Default: . (current directory)
+  -r, [--recursive], [--no-recursive]    # Search for files recursively
+                                         # Default: --recursive
+  -s, [--sep-string=SEP_STRING]          # Separator string between each word in output filename
+                                         # Default: '.' (dot string)
+  -d, [--downcase], [--no-downcase]      # Convert each word in the output filename to lowercase
+                                         # Default: --no-downcase
+  -t, [--capitalize], [--no-capitalize]  # Capitalize each word in the output filename
+                                         # Default: --no-capitalize
+  -c, [--commit], [--no-commit]          # Make your changes permanent
+                                         # Default: --no-commit
+  -v, [--version], [--no-version]        # Display version information
+
+Rename multiple ebook files (pdf,epub,mobi) from a given directory
 ```
 
 ### Quick Usage
@@ -60,7 +92,7 @@ cd ~/Dropbox/ebooks
 ebook_renamer --commit
 ```
 
-To see what the result would be like without making any changes
+To see what the result would be like without making any changes (dry-run)
 
 ```sh
 cd ~/Dropbox/ebooks/
@@ -90,7 +122,7 @@ cd ~/Dropbox/ebooks/
 ebook_renamer --base-dir . --sep-string _
 ```
 
-Should see the result like
+should result in something like
 
 ```
 -----------------------------------------------------------
@@ -119,9 +151,6 @@ cd ~/Dropbox/ebooks/
 # version of ruby (e.g. rbenv local 2.1.1 or rvm use 2.1.1)
 ebook_renamer --base-dir ~/Dropbox/ebooks/samples
 
-# For help on how to use the gem just type without any options.
-ebook_renamer
-
 # Run the command without making any changes to the files (dry-run) in the current directory
 ebook_renamer --base-dir . --recursive
 
@@ -133,6 +162,7 @@ ebook_renamer -b . -r -c
 ```
 
 ### Misc Options
+
 In addition to the above usage, you can also use the two new flags `--downcase` or
 `--capitalize`
 
@@ -142,31 +172,6 @@ ebook_renamer --base-dir . --recursive --downcase --commit
 
 # Capitalize each word in the result filename
 ebook_renamer --base-dir . --recursive --capitalize --commit
-```
-
-### Usage/Synopsis
-
-```
-Usage:
-  ebook_renamer
-
-Options:
-  -b, [--base-dir=BASE_DIR]              # Base directory
-                                         # Default: . (current directory)
-  -r, [--recursive], [--no-recursive]    # Search for files recursively
-                                         # Default: --recursive
-  -s, [--sep-string=SEP_STRING]          # Separator string between words in output filename
-                                         # Default: . (dot string)
-  -d, [--downcase], [--no-downcase]      # Convert each word in the filename to lowercase
-                                         # Default: --no-downcase
-  -t, [--capitalize], [--no-capitalize]  # Capitalize each word in the filename
-                                         # Default: --no-capitalize
-  -c, [--commit], [--no-commit]          # Make change permanent
-                                         # Default: --no-commit
-  -v, [--version], [--no-version]        # Display version information
-
-Rename multiple ebook files (pdf,epub,mobi) from a given directory
-
 ```
 
 ### Contributing

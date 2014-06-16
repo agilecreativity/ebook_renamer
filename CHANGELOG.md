@@ -1,5 +1,10 @@
 ### Changelog
 
+#### 0.2.0
+
+- Make use of refinement instead of monkeypatching core classes
+- Minor code cleanup
+
 #### 0.1.12
 
 - Skip the file if the result filename exist locally.

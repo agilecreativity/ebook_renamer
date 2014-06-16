@@ -5,6 +5,8 @@ require "fileutils"
 require_relative "../ebook_renamer"
 module EbookRenamer
   class CLI < Thor
+    using AgileUtils::HashExt
+
     desc "rename", "Rename multiple ebook files (pdf,epub,mobi) from a given directory"
     method_option *AgileUtils::Options::BASE_DIR
     method_option *AgileUtils::Options::RECURSIVE
@@ -68,7 +70,7 @@ Rename multiple ebook files (pdf,epub,mobi) from a given directory
 
     default_task :usage
 
-  private
+    private
 
     # Rename the file from the given directory
     def execute(options = {})
