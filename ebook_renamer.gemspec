@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Rename multiple ebook files (pdf, epub, mobi) based on existing metadata if available}
   spec.homepage      = "https://github.com/agilecreativity/ebook_renamer"
   spec.license       = "MIT"
+  spec.required_ruby_version = ">= 2.1.0"
   spec.files         = Dir.glob("{bin,lib}/**/*") + %w[Gemfile
                                                        Rakefile
                                                        ebook_renamer.gemspec
@@ -23,10 +24,12 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
-  spec.add_runtime_dependency "thor", "~> 0.19"
-  spec.add_runtime_dependency "agile_utils", "~> 0.2.0"
-  spec.add_runtime_dependency "code_lister", "~> 0.2.0"
-  spec.add_runtime_dependency "filename_cleaner", "~> 0.4.0"
+
+  spec.add_runtime_dependency "thor", "~> 0.19.1"
+  spec.add_runtime_dependency "agile_utils", "~> 0.2.1"
+  spec.add_runtime_dependency "code_lister", "~> 0.2.1"
+  spec.add_runtime_dependency "filename_cleaner", "~> 0.4.2"
+
   spec.add_development_dependency "bundler", "~> 1.6.2"
   spec.add_development_dependency "rake", "~> 10.3.2"
   spec.add_development_dependency "awesome_print", "~> 1.2.0"

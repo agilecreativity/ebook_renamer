@@ -46,8 +46,6 @@ which ebook-meta #=> /usr/bin/ebook-meta
 In particular the gem is looking for the `ebook-meta` binary in a path.
 If this is not installed the error will be raised.
 
-- Tested on Ruby 1.9.3 and newer
-
 ### Installation and Usage:
 
 ```sh
