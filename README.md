@@ -166,11 +166,17 @@ In addition to the above usage, you can also use the two new flags `--downcase` 
 
 ```shell
 # Lowercase each word in the result filename
-ebook_renamer --base-dir . --recursive --downcase --commit
-
-# Capitalize each word in the result filename
-ebook_renamer --base-dir . --recursive --capitalize --commit
+ebook_renamer --base-dir . --sep-string '_' --recursive --downcase --commit
 ```
+
+will produce the result filename like `start_with_why_how_great_leader_inspire_everyone_to_take_action_by_simon_sinek.pdf`.
+
+```shell
+# Capitalize each word in the result filename
+ebook_renamer --base-dir . --sep-string '_' --recursive --capitalize --commit
+```
+
+will produce the result filename like `Start_With_Why_How_Great_Leader_Inspire_Everyone_To_Take_Action_by_Simon_Sinek.pdf`.
 
 ### Contributing
 
