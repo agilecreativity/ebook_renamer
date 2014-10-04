@@ -1,7 +1,6 @@
 require_relative "../../test_helper"
 describe EbookRenamer do
   include EbookRenamer
-
   before do
     @sample = meta("./test/fixtures/ebooks/demo1.pdf")
   end

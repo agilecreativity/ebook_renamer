@@ -1,4 +1,9 @@
 ### Changelog
+#### 0.2.3
+
+- Use `require` instead of `require_relative` when possible
+- Use underscore instead of dot as the default seperator
+- Improve README.md
 
 #### 0.2.2
 

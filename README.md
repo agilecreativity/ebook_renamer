@@ -33,9 +33,9 @@ If the `--sep-string _` is used then the above output will be
 ### What you will need
 
 - You will need to install [Calibre][] and
-  [Calibre CLI][] on your OS. Please download Calibre binary from [http://calibre-ebook.com/download](http://calibre-ebook.com/download)
+  [Calibre CLI][] on your OS. Please download Calibre binary from [http://calibre-ebook.com/download][]
 
-Alternatively if Ubuntu Linux:
+Alternatively if you are using Ubuntu try:
 
 ```shell
 sudo apt-get install calibre calibre-bin
@@ -67,7 +67,7 @@ Options:
   -r, [--recursive], [--no-recursive]    # Search for files recursively
                                          # Default: --recursive
   -s, [--sep-string=SEP_STRING]          # Separator string between each word in output filename
-                                         # Default: '.' (dot string)
+                                         # Default: '_' (underscore)
   -d, [--downcase], [--no-downcase]      # Convert each word in the output filename to lowercase
                                          # Default: --no-downcase
   -t, [--capitalize], [--no-capitalize]  # Capitalize each word in the output filename
@@ -178,6 +178,11 @@ ebook_renamer --base-dir . --sep-string '_' --recursive --capitalize --commit
 
 will produce the result filename like `Start_With_Why_How_Great_Leader_Inspire_Everyone_To_Take_Action_by_Simon_Sinek.pdf`.
 
+### Alternative
+
+- Check out my other gem called [ebooks_renamer][] which provides similar functionality but implemented in pure ruby.
+- [ebooks_renamer][] does not rely on the external software like [Calibre CLI][] to be install before use!
+
 ### Contributing
 
 1. Fork it
@@ -189,4 +194,6 @@ will produce the result filename like `Start_With_Why_How_Great_Leader_Inspire_E
 
 [Calibre]: http://www.calibre-ebook.com/
 [Calibre CLI]: http://manual.calibre-ebook.com/cli/cli-index.html
+[http://calibre-ebook.com/download]: http://calibre-ebook.com/download
+[ebooks_renamer]: http://rubygems.org/gems/ebooks_renamer
 [Semantic Versioning]: http://semver.org

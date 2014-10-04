@@ -1,17 +1,11 @@
-require "open3"
-require "fileutils"
-require "shellwords"
-require_relative "../ebook_renamer"
 module EbookRenamer
-  EbookMetaNotInstall = Class.new(StandardError)
-
   # Extract meta data from the input file using the ebook-meta tool
   #
   # @param [String] filename the input file name
   # @param [String] binary the executable for use to extract the metadata
   # @return [String] result of the output from running the command
   def meta(filename, binary = "ebook-meta")
-    fail EbookMetaNotInstall, "Need to install ebook-meta to use this gem" if AgileUtils::Helper.which(binary).nil?
+    fail Errors::EbookMetaNotInstall, "Need to install ebook-meta to use this gem" if AgileUtils::Helper.which(binary).nil?
     command = [
       binary,
       Shellwords.escape(filename)

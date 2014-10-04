@@ -1,8 +1,3 @@
-require "agile_utils"
-require "code_lister"
-require "filename_cleaner"
-require "fileutils"
-require_relative "../ebook_renamer"
 module EbookRenamer
   class CLI < Thor
     desc "rename", "Rename multiple ebook files (pdf,epub,mobi) from a given directory"
@@ -11,7 +6,7 @@ module EbookRenamer
     method_option :sep_string,
                   aliases: "-s",
                   desc: "Separator string between each word in output filename",
-                  default: "."
+                  default: "_"
     method_option :downcase,
                   aliases: "-d",
                   type: :boolean,
@@ -42,7 +37,6 @@ module EbookRenamer
     desc "usage", "Display help screen"
     def usage
       puts <<-EOS
-
 Usage:
   ebook_renamer
 
@@ -52,7 +46,7 @@ Options:
   -r, [--recursive], [--no-recursive]    # Search for files recursively
                                          # Default: --recursive
   -s, [--sep-string=SEP_STRING]          # Separator string between each word in output filename
-                                         # Default: '.' (dot string)
+                                         # Default: '_' (underscore)
   -d, [--downcase], [--no-downcase]      # Convert each word in the output filename to lowercase
                                          # Default: --no-downcase
   -t, [--capitalize], [--no-capitalize]  # Capitalize each word in the output filename
