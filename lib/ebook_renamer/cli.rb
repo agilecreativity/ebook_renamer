@@ -24,7 +24,7 @@ module EbookRenamer
                   default: false
     method_option *AgileUtils::Options::VERSION
     def rename
-      opts = options.symbolize_keys
+      opts = options.deep_symbolize_keys
       # Explicitly add the :exts options
       opts[:exts] = %w[pdf epub mobi]
       if opts[:version]

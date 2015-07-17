@@ -39,12 +39,26 @@ Alternatively if you are using Ubuntu try:
 
 ```shell
 sudo apt-get install calibre calibre-bin
+
 # check your installation
 which ebook-meta #=> /usr/bin/ebook-meta
 ```
 
 In particular the gem is looking for the `ebook-meta` binary in a path.
 If this is not installed the error will be raised.
+
+#### Tips for OSX installation
+
+If you install using the binary above you will need to create a symlink to the
+`ebook-meta` binary like the following:
+
+```shell
+# Assume that /usr/local/bin is in your $PATH varaiable
+cd /usr/local/bin
+sudo ln -fs /Applications/calibre.app/Contents/MacOS/ebook-meta /usr/local/bin/ebook-meta
+source ~/.zshrc # or source ~/.bashrc
+which ebook-meta
+```
 
 ### Installation and Usage:
 
